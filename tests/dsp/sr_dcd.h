@@ -1,4 +1,4 @@
-/* Values you need to define when including this header:
+/* Values you need to define when including this header, as strings:
  * SR_NODE_GUID_STRING: nodes guid in the form:
  * 	 "00000000_0000_0000_0000_000000000000"
  * SR_NODE_CREATE_FUNC: Function name to be called for node creation
@@ -12,18 +12,17 @@
 /* Generate dcd_register section - this contains one or more comma seperated (?)
  * guids to be found and registered by dynreg */
 const static char __attribute__((section(".dcd_register"))) dcd_register[] =
-        SR_NODE_GUID_STRING##":0";
-"FAACEBEE5_FACE_BEE5_FACE_BEE5FACEBEE5:0";
+        SR_NODE_GUID_STRING ":0";
 
 /* deathstring: this comma seperated list of values is fed to the bridgedriver,
  * which extracts various pieces of information from it, see below */
-const static char __attribute__((section("."##SR_NODE_GUID_STRING))) death[] =
-        "1024,"##SR_NODE_GUID_STRING##",nodename,"
+const static char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
+        "1024," SR_NODE_GUID_STRING ",nodename,"
 	"1,0,1024,512,128,3072,0,0,0,0,0,0,1024,1024,0,10,1,1,7d0H,"
-	##SR_NODE_CREATE_FUNC##","
-	##SR_NODE_EXECUTE_FUNC##","
-	##SR_NODE_DELETE_FUNC##
-	",0,32768,"##SR_NODE_NAME##
+	SR_NODE_CREATE_FUNC ","
+	SR_NODE_EXECUTE_FUNC ","
+	SR_NODE_DELETE_FUNC
+	",0,32768," SR_NODE_NAME
 	",1,ff3f3f3fH,ff3f3f3fH,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,stackSeg,";
 
 /* Data is supposed to contain the following, names from a TI script:
