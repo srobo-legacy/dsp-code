@@ -20,8 +20,8 @@ int
 parse_test(xmlDocPtr doc, xmlNodePtr test)
 {
 	xmlNodePtr subnode;
-	const char *testname, *filename, *tmp;
-	char *endptr;
+	const char *testname, *tmp;
+	char *endptr, *filename;
 	int testnum;
 	int wanted_retval;
 	bool got_retval;

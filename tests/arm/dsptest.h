@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <dbapi.h>
 
-int run_test(const char *testname, const char *filename, int testnum,
+int run_test(const char *testname, char *filename, int testnum,
                                                 int wanted_retval);
 
 extern bool dsp_open;

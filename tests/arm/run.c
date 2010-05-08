@@ -7,7 +7,7 @@
 #include "dsptest.h"
 
 int
-run_test(const char *testname, const char *filename, int testnum,
+run_test(const char *testname, char *filename, int testnum,
 						int wanted_retval)
 {
 	struct DSP_UUID death;
