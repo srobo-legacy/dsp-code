@@ -33,6 +33,11 @@ parse_test(xmlDocPtr doc, xmlNodePtr test)
 
 	subnode = test->xmlChildrenNode;
 	while (subnode != NULL) {
+		if (subnode->type == XML_TEXT_NODE) {
+			subnode = subnode->next;
+			continue;
+		}
+
 		if (!xmlStrcmp("name", subnode->name)) {
 			testname = xmlNodeListGetString(doc,
 					subnode->xmlChildrenNode, 1);
@@ -112,6 +117,11 @@ main(int argc, char **argv)
 
 	cur = cur->xmlChildrenNode;
 	while (cur != NULL) {
+		if (cur->type == XML_TEXT_NODE) {
+			cur = cur->next;
+			continue;
+		}
+
 		ret = parse_test(tests, cur);
 		if (ret == 0) {
 			passed++;
