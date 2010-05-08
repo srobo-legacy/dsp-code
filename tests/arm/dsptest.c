@@ -16,11 +16,11 @@ useage()
 int
 main(int argc, char **argv)
 {
-	int total, passed, failed;
+	int ret, total, passed, failed;
 	xmlDocPtr tests;
 	xmlNodePtr xnode;
 
-	total = passed = failed = ret = 0;
+	ret = total = passed = failed = ret = 0;
 
 	if (argc != 2) {
 		usage();
@@ -50,10 +50,16 @@ main(int argc, char **argv)
 
 	cur = cur->xmlChildrenNode;
 	while (cur != NULL) {
-		if (run_test(cur) == 0)
+		ret = parse_test(cur);
+		if (ret == 0) {
 			passed++;
-		else
+		} else if (ret > 0) {
 			failed++;
+		} else {
+			fprintf(stderr, "Error parsing test\n");
+			xmlFreeDoc(tests);
+			return -1;
+		}
 
 		total++;
 	}
