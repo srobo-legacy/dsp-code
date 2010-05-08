@@ -5,6 +5,8 @@
 
 #include <dbapi.h>
 
+#include "dsptest.h"
+
 bool dsp_open = false;
 DSP_HPROCESSOR dsp_handle = NULL;
 

@@ -6,6 +6,8 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 
+#include "dsptest.h"
+
 void
 useage()
 {
