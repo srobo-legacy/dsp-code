@@ -134,6 +134,7 @@ main(int argc, char **argv)
 		}
 
 		total++;
+		cur = cur->next;
 	}
 
 	xmlFreeDoc(tests);
