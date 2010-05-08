@@ -9,7 +9,7 @@
 #include "dsptest.h"
 
 void
-useage()
+usage()
 {
 
 	fprintf(stderr, "Usage: dsptest testcases.xml\n");
