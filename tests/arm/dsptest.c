@@ -41,7 +41,7 @@ main(int argc, char **argv)
 		return 1;
 	}
 
-	if (xmlStrcmp(cur->name, "testlist")) {
+	if (!xmlStrcmp(cur->name, "testlist")) {
 		fprintf(stderr, "Root node of testfile \"%s\" is not "
 				"\"testlist\"\n", argv[1]);
 		xmlFreeDoc(tests);
