@@ -1,0 +1,10 @@
+This directory should contain the headers for the DSP-side API. However, I've
+been unable to find any reference to a license for these particular files, and
+the headers themselves don't refer to any permission to redistribute - so I
+suspect we can't put these in the dsp-code repo, for now at least.
+
+To get the headers, download:
+	http://www.openomap.org/pub/dspbridge/dspbridge_omapzoom_v1.4.tar.gz
+Extract it to a directory, and from there copy the contents of
+	dsp/ti/dspbridge/dsp/bridge_product/exports/include/
+To the directory containing this README file.
