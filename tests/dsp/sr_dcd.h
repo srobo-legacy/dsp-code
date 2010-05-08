@@ -11,12 +11,12 @@
 
 /* Generate dcd_register section - this contains one or more comma seperated (?)
  * guids to be found and registered by dynreg */
-const static char __attribute__((section(".dcd_register"))) dcd_register[] =
+static const char __attribute__((section(".dcd_register"))) dcd_register[] =
         SR_NODE_GUID_STRING ":0";
 
 /* deathstring: this comma seperated list of values is fed to the bridgedriver,
  * which extracts various pieces of information from it, see below */
-const static char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
+static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
         "1024," SR_NODE_GUID_STRING ",nodename,"
 	"1,0,1024,512,128,3072,0,0,0,0,0,0,1024,1024,0,10,1,1,7d0H,"
 	SR_NODE_CREATE_FUNC ","
