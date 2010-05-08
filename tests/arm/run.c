@@ -34,9 +34,9 @@ run_test(const char *testname, const char *filename, int testnum,
 	death.ucData6[4] = (testnum >> 8) & 0xFF;
 	death.ucData6[5] = testnum & 0xFF;
 
-	DSPManager_Unregister(&death, DSP_DCDNODETYPE);
+	DSPManager_UnregisterObject(&death, DSP_DCDNODETYPE);
 
-	status = DSPManager_Register(&death, DSP_DCDNODETYPE, filename);
+	status = DSPManager_RegisterObject(&death, DSP_DCDNODETYPE, filename);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't register file \"%s\": missing?\n",
 								filename);
@@ -66,7 +66,7 @@ run_test(const char *testname, const char *filename, int testnum,
 
 	/* Finally, unregister node */
 	out:
-	DSPManager_Unregister(&death, DSP_DCDNODETYPE);
+	DSPManager_UnregisterObject(&death, DSP_DCDNODETYPE);
 
 	return (failed) ? 1 : 0;
 }
