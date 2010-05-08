@@ -48,6 +48,7 @@ run_test(const char *testname, char *filename, int testnum,
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Failed to allocate node for \"%s\": not a "
 				"code problem, something else?\n", filename);
+		failed = true;
 		goto out;
 	}
 
