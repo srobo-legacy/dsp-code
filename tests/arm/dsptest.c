@@ -20,12 +20,14 @@ int
 parse_test(xmlDocPtr doc, xmlNodePtr test)
 {
 	xmlNodePtr subnode;
-	const char *testname, *tmp, *endptr;
+	const char *testname, *filename, *tmp;
+	char *endptr;
 	int testnum;
 	int wanted_retval;
 	bool got_retval;
 
 	testname = NULL;
+	filename = NULL;
 	testnum = -1;
 	got_retval = false;
 
@@ -34,11 +36,14 @@ parse_test(xmlDocPtr doc, xmlNodePtr test)
 		if (!xmlStrcmp("name", subnode->name)) {
 			testname = xmlNodeListGetString(doc,
 					subnode->xmlChildrenNode, 1);
+		} else if (!xmlStrcmp("filename", subnode->name)) {
+			filename = xmlNodeListGetString(doc,
+					subnode->xmlChildrenNode, 1);
 		} else if (!xmlStrcmp("nodenum", subnode->name)) {
 			tmp = xmlNodeListGetString(doc,
 					subnode->xmlChildrenNode, 1);
 			testnum = strtol(tmp, &endptr, 16);
-			if (entptr == tmp) {
+			if (endptr == tmp) {
 				fprintf(stderr, "\"%s\" is not a node number\n",
 									tmp);
 				return -1;
@@ -48,7 +53,7 @@ parse_test(xmlDocPtr doc, xmlNodePtr test)
 					subnode->xmlChildrenNode, 1);
 			wanted_retval = strtol(tmp, &endptr, 16);
 			got_retval = true;
-			if (entptr == tmp) {
+			if (endptr == tmp) {
 				fprintf(stderr, "\"%s\" is not a return val\n",
 									tmp);
 				return -1;
@@ -62,7 +67,7 @@ parse_test(xmlDocPtr doc, xmlNodePtr test)
 		return -1;
 	}
 
-	return run_test(testname, testnum, wanted_retval);
+	return run_test(testname, filename, testnum, wanted_retval);
 }
 
 int
