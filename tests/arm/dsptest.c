@@ -84,6 +84,11 @@ main(int argc, char **argv)
 		return 1;
 	}
 
+	if (check_dsp_open()) {
+		fprintf(stderr, "Failed to open dsp\n");
+		return 1;
+	}
+
 	tests = xmlParseFile(argv[1]);
 	if (tests == NULL) {
 		fprintf(stderr, "libxml couldn't parse testfile \"%s\"\n",
@@ -122,6 +127,7 @@ main(int argc, char **argv)
 	}
 
 	xmlFreeDoc(tests);
+	close_dsp();
 	printf("Ran %d tests, %d passed, %d failed\n", total, passed, failed);
 	return failed;
 }
