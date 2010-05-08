@@ -75,7 +75,7 @@ main(int argc, char **argv)
 {
 	int ret, total, passed, failed;
 	xmlDocPtr tests;
-	xmlNodePtr xnode;
+	xmlNodePtr cur;
 
 	ret = total = passed = failed = ret = 0;
 
@@ -112,7 +112,7 @@ main(int argc, char **argv)
 
 	cur = cur->xmlChildrenNode;
 	while (cur != NULL) {
-		ret = parse_test(cur);
+		ret = parse_test(tests, cur);
 		if (ret == 0) {
 			passed++;
 		} else if (ret > 0) {
