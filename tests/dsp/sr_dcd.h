@@ -48,5 +48,5 @@ static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
  *      do and which ones bridgedriver honours, your guess is as good as mine */
 
 #else /*_TESTS_DSP_SR_DCD_H_*/
-#error Don't include sr_dcd.h more than once, dspbridge will hate you
+#error Dont include sr_dcd.h more than once, dspbridge will hate you
 #endif
