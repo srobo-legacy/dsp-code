@@ -15,12 +15,15 @@ TESTS = ${OBJS:.doff=.xml}
 .c.xml:
 	$(CC) $< -o $@ -E -DGENERATE_XML -Wp,-P
 
-all: $(OBJS) tests.xml
+all: $(OBJS) tests.xml tgz
 
 tests.xml: $(TESTS)
 	echo "<testlist>" > tests.xml
 	cat $(TESTS) >> tests.xml
 	echo "</testlist>" >> tests.xml
+
+tgz: $(OBJS) tests.xml
+	tar -czf tests.tgz tests.xml
 
 clean:
 	rm *.doff
