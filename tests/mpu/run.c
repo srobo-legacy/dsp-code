@@ -35,8 +35,15 @@ run_test(const char *testname, char *filename, int testnum,
 	death.ucData6[5] = testnum & 0xFF;
 
 	DSPManager_UnregisterObject(&death, DSP_DCDNODETYPE);
+	DSPManager_UnregisterObject(&death, DSP_DCDLIBRARYTYPE);
 
-	status = DSPManager_RegisterObject(&death, DSP_DCDNODETYPE, filename);
+	status = DSPManager_RegisterObject(&death, DSP_DCDNODETYPE,filename);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't register file \"%s\": missing?\n",
+								filename);
+		return -1;
+	}
+	status = DSPManager_RegisterObject(&death, DSP_DCDLIBRARYTYPE,filename);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't register file \"%s\": missing?\n",
 								filename);
@@ -68,6 +75,7 @@ run_test(const char *testname, char *filename, int testnum,
 	/* Finally, unregister node */
 	out:
 	DSPManager_UnregisterObject(&death, DSP_DCDNODETYPE);
+	DSPManager_UnregisterObject(&death, DSP_DCDLIBRARYTYPE);
 
 	return (failed) ? 1 : 0;
 }
