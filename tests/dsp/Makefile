@@ -24,5 +24,6 @@ tests.xml: $(TESTS)
 
 clean:
 	rm *.doff
+	rm *.xml
 
 .PHONEY: clean
