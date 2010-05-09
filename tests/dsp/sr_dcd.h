@@ -44,6 +44,7 @@ static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
  *      Need to set timeout accurately (7d0H in example) else SendMessage
  *      and or WMD_CHNL_GetIOC returns an error complaining about bad timeouts
  *      (and the error path of which panics.
+ *      Node Name musn't have a space in it, or bridgedriver hangs in strtok.
  *      For everything else, we have the names of the values, but for what they
  *      do and which ones bridgedriver honours, your guess is as good as mine */
 
