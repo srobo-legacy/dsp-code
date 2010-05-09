@@ -1,8 +1,0 @@
-<testlist>
-	<test>
-		<name>return 0</name>
-		<filename>doff.o</filename>
-		<nodenum>0xFACEBEE5</nodenum>
-		<retval>0</retval>
-	</test>
-</testlist>
