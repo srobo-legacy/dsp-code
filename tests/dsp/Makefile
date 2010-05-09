@@ -13,12 +13,14 @@ TESTS = ${OBJS:.doff=.xml}
 	$(CC) $< -o $@ $(CFLAGS) -Wl,$(LDFLAGS)
 
 .c.xml:
-	$(CC) $< -o $@ -E -Wp,-P
+	$(CC) $< -o $@ -E -DGENERATE_XML -Wp,-P
 
 all: $(OBJS) tests.xml
 
 tests.xml: $(TESTS)
-	echo "<testlist>" | cat $(TESTS) | echo "</testlist>" > test.xml
+	echo "<testlist>" > tests.xml
+	cat $(TESTS) >> tests.xml
+	echo "</testlist>" >> tests.xml
 
 clean:
 	rm *.doff
