@@ -4,7 +4,7 @@ LDFLAGS = --oformat=doff-c64x
 
 CFLAGS += -W -Wall -Wextra -Werror -ansi -pedantic
 
-OBJS = start.doff
+OBJS = start.doff retval.doff voidcall.doff
 TESTS = ${OBJS:.doff=.xml}
 
 .SUFFIXES: .c .doff .xml
