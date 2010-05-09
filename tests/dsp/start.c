@@ -1,10 +1,11 @@
-#define SR_NODE_GUID_STRING "FACEBEE5_FACE_BEE5_FACE_BEE500000000"
-#define SR_NODE_CREATE_FUNC "main"
-#define SR_NODE_EXECUTE_FUNC "main"
-#define SR_NODE_DELETE_FUNC "main"
-#define SR_NODE_NAME "test return 0"
+#define SR_TEST_NAME "return zero"
+#define SR_TEST_RET_VAL 0
+#define SR_TEST_FILENAME "start.doff"
+#define SR_TEST_NUM 0
 
-#include "sr_dcd.h"
+#include "sr_test.h"
+
+#ifndef GENERATE_XML
 
 int
 main()
@@ -12,3 +13,5 @@ main()
 
 	return 0;
 }
+
+#endif
