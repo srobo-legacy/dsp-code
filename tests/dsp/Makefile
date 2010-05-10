@@ -10,7 +10,7 @@ TESTS = ${OBJS:.doff=.xml}
 .SUFFIXES: .c .doff .xml
 
 .c.doff:
-	$(CC) $< -o $@ $(CFLAGS) -Wl,$(LDFLAGS)
+	$(CC) sr_test.c $< -o $@ $(CFLAGS) -Wl,$(LDFLAGS)
 
 .c.xml:
 	$(CC) $< -o $@ -E -DGENERATE_XML -Wp,-P

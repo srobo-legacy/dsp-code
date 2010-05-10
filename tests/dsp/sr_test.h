@@ -7,10 +7,13 @@
 	</test>
 #else
 
+int sr_node_create();
+int sr_node_delete();
+
 #define SR_NODE_GUID_STRING "FACEBEE5_FACE_BEE5_FACE_BEE5" SR_TEST_NUM_STR
-#define SR_NODE_CREATE_FUNC "main"
+#define SR_NODE_CREATE_FUNC "sr_node_create"
 #define SR_NODE_EXECUTE_FUNC "main"
-#define SR_NODE_DELETE_FUNC "main"
+#define SR_NODE_DELETE_FUNC "sr_node_delete"
 #define SR_NODE_NAME SR_TEST_NAME
 
 #include "sr_dcd.h"
