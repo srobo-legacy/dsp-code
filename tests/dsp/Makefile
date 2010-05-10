@@ -26,7 +26,7 @@ tgz: $(OBJS) tests.xml
 	tar -czf tests.tgz $(OBJS) tests.xml
 
 clean:
-	rm *.doff
-	rm *.xml
+	-rm *.doff
+	-rm *.xml
 
 .PHONEY: clean
