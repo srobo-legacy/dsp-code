@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include <dbapi.h>
 
@@ -11,11 +12,12 @@ run_test(const char *testname, char *filename, int testnum,
 						int wanted_retval)
 {
 	struct DSP_UUID death;
+	struct timespec time;
 	DSP_HNODE node;
-	DBAPI status;
+	DBAPI status, retval;
 	bool failed;
 
-	failed = false;
+	failed = true;
 
 	/* Seeing how we're likely to rebuild and munge binaries quite often,
 	 * we start testing with unregistering then registering the binary
@@ -55,27 +57,43 @@ run_test(const char *testname, char *filename, int testnum,
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Failed to allocate node for \"%s\": not a "
 				"code problem, something else?\n", filename);
-		failed = true;
 		goto out;
 	}
 
 	status = DSPNode_Create(node);
 	if (DSP_FAILED(status)) {
-		failed = true;
-	} else if (status != wanted_retval) {
-		failed = true;
+		fprintf(stderr, "Couldn't create dsp node: %X\n", status);
+		goto out;
 	}
 
-	/* Mkay, that's run the test - to appease the bridgedriver we also need
-	 * to kill the node we just created, which could make anything happen.
-	 * Or just nothing happen. Anyway, we don't care that much, certainly
-	 * not what the return value is */
-	DSPNode_Delete(node);
+	/* That will have run the sr default create function - now run execute
+	 * phase and get its return value */
+	status = DSPNode_Run(node);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't run dsp node: %X\n", status);
+		goto out;
+	}
+
+	/* Wait a bit */
+	time.tv_sec = 0;
+	time.tv_nsec = 100000000; /* 100ms */
+	nanosleep(&time, NULL);
+
+	status = DSPNode_Terminate(node, &retval);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't terminate node, %X\n", status);
+	} else if (retval == wanted_retval) {
+		failed = false;
+	}
 
 	/* Finally, unregister node */
 	out:
+	DSPNode_Delete(node);
 	DSPManager_UnregisterObject(&death, DSP_DCDNODETYPE);
 	DSPManager_UnregisterObject(&death, DSP_DCDLIBRARYTYPE);
+
+	printf("TEST %d %s: %s\n", testnum, (failed) ? "failed" : "passed",
+								testname);
 
 	return (failed) ? 1 : 0;
 }
