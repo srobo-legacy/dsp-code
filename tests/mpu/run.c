@@ -12,12 +12,13 @@ run_test(const char *testname, char *filename, int testnum,
 						int wanted_retval)
 {
 	struct DSP_UUID death;
-	struct timespec time;
+	struct DSP_MSG msg;
 	DSP_HNODE node;
 	DBAPI status, retval;
 	bool failed;
 
 	failed = true;
+	retval = 0xFACEBEE5;
 
 	/* Seeing how we're likely to rebuild and munge binaries quite often,
 	 * we start testing with unregistering then registering the binary
@@ -103,14 +104,16 @@ run_test(const char *testname, char *filename, int testnum,
 		failed = false;
 	}
 
+	retval = msg.dwArg1;
+
 	/* Finally, unregister node */
 	out:
 	DSPNode_Delete(node);
 	DSPManager_UnregisterObject(&death, DSP_DCDNODETYPE);
 	DSPManager_UnregisterObject(&death, DSP_DCDLIBRARYTYPE);
 
-	printf("TEST %d %s: %s\n", testnum, (failed) ? "failed" : "passed",
-								testname);
+	printf("TEST %d %s: %s (%X)\n", testnum, (failed) ? "failed" : "passed",
+							testname, retval);
 
 	return (failed) ? 1 : 0;
 }
