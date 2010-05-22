@@ -31,8 +31,8 @@
 		mvk	.S2	-1,		B6
 		; node ptr conveniently stays in A4
 		callp	.S2	_NODE_putMsg
-; Call test code - TODO
-		mvk	.S1	0,	A4		; Load zero for now
+; Call test code
+		callp	.S2	test_main
 ; Send exit status back to MPU
 		mvk	.S1	1,	A0
 		stw	.D1T1	A0,	*-A15(0x14)
@@ -50,29 +50,3 @@
 		add	.D2	0x18,	B15,	B15
 		mvk	.S1	0,	A4
 		bnop	.S2	B3,	5
-		
-.align 5
-	.section	.data,""
-badgers:
-	.asciz "I'M COVERED IN BEES"
-
-
-	.section	.dcd_register,""
-	.align	5
-	.type dcd_register,#object
-	.size dcd_register,39
-dcd_register:
-	.asciz	"FACEBEE5_FACE_BEE5_FACE_BEE500000000:0"
-	.align 4
-ponies:
-	.asciz "I'M COVERED IN BEES"
-
-
-	.section	.FACEBEE5_FACE_BEE5_FACE_BEE500000000,""
-	.align	5
-	.type death,#object
-	.size death,224
-death:
-;	.asciz	"1024,FACEBEE5_FACE_BEE5_FACE_BEE500000000,nodename,1,0,1024,512,128,3072,0,0,0,0,0,0,1024,1024,0,10,1,1,7d0H,main,run,main,0,32768,bees,1,ff3f3f3fH,ff3f3f3fH,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,stackSeg,"
-
-	.asciz	"1024,FACEBEE5_FACE_BEE5_FACE_BEE500000000,PING_TI,1,0,1024,512,128,3072,5,3,1000,100,10,1,1024,16,0,2,0,0,7d0H,main,run,main,0,32768,iAlgName,1,ff3f3f3fH,ff3f3f3fH,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,stackSegName,"
