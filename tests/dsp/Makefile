@@ -10,12 +10,15 @@ TESTS = ${OBJS:.doff=.xml}
 .SUFFIXES: .c .doff .xml
 
 .c.doff:
-	$(CC) sr_test.c $< -o $@ $(CFLAGS) -Wl,$(LDFLAGS)
+	$(CC) sr_test.o $< -o $@ $(CFLAGS) -Wl,$(LDFLAGS)
 
 .c.xml:
 	$(CC) $< -o $@ -E -DGENERATE_XML -Wp,-P
 
 all: $(OBJS) tests.xml tgz
+
+sr_test.o: sr_test.s
+	tic64x-as sr_test.s -o sr_test.o
 
 tests.xml: $(TESTS)
 	echo "<testlist>" > tests.xml
