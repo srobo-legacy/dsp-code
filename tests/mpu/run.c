@@ -105,7 +105,7 @@ run_test(const char *testname, char *filename, int testnum,
 	retval = msg.dwArg1;
 
 	if (retval == wanted_retval)
-		failed = true;
+		failed = false;
 
 	/* Finally, unregister node */
 	out:
