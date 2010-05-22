@@ -23,6 +23,8 @@ TESTS = ${OBJS:.doff=.xml}
 
 all: sr_test.o $(OBJS) tests.xml tgz
 
+$(OBJS): sr_test.o
+
 sr_test.o: sr_test.s
 	tic64x-as sr_test.s -o sr_test.o
 
