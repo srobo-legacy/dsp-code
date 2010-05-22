@@ -74,10 +74,27 @@ run_test(const char *testname, char *filename, int testnum,
 		goto out;
 	}
 
-	/* Wait a bit */
-	time.tv_sec = 0;
-	time.tv_nsec = 100000000; /* 100ms */
-	nanosleep(&time, NULL);
+	status = DSPNode_GetMessage(node, &msg, 15000);
+	if (DSP_FAILED(status)) {
+		printf("DSP node did not issue \"enter\" message (%X)- DSP "
+			"side environment may be corrupt\n", status);
+		goto out;
+	} else if (msg.dwCmd) {
+		printf("DSP issued unrecognized command (%d) - stack or memory "
+			"corruption?\n", msg.dwCmd);
+		goto out;
+	}
+
+	status = DSPNode_GetMessage(node, &msg, 15000);
+	if (DSP_FAILED(status)) {
+		printf("DSP node did not issue \"exit\" message (%X) - DSP "
+			"side environment may be corrupt\n", status);
+		goto out;
+	} else if (msg.dwCmd != 1) {
+		printf("DSP node completed with unrecognized message (%d)\n",
+			msg.dwCmd);
+		goto out;
+	}
 
 	status = DSPNode_Terminate(node, &retval);
 	if (DSP_FAILED(status)) {
