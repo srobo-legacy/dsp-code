@@ -100,11 +100,12 @@ run_test(const char *testname, char *filename, int testnum,
 	status = DSPNode_Terminate(node, &retval);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't terminate node, %X\n", status);
-	} else if (retval == wanted_retval) {
-		failed = false;
 	}
 
 	retval = msg.dwArg1;
+
+	if (retval == wanted_retval)
+		failed = true;
 
 	/* Finally, unregister node */
 	out:
