@@ -75,7 +75,7 @@ run_test(const char *testname, char *filename, int testnum,
 		goto out;
 	}
 
-	status = DSPNode_GetMessage(node, &msg, 15000);
+	status = DSPNode_GetMessage(node, &msg, 3000);
 	if (DSP_FAILED(status)) {
 		printf("DSP node did not issue \"enter\" message (%X)- DSP "
 			"side environment may be corrupt\n", status);
@@ -86,7 +86,7 @@ run_test(const char *testname, char *filename, int testnum,
 		goto out;
 	}
 
-	status = DSPNode_GetMessage(node, &msg, 15000);
+	status = DSPNode_GetMessage(node, &msg, 3000);
 	if (DSP_FAILED(status)) {
 		printf("DSP node did not issue \"exit\" message (%X) - DSP "
 			"side environment may be corrupt\n", status);
