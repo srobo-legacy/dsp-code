@@ -12,12 +12,13 @@ run_test(const char *testname, char *filename, int testnum,
 						int wanted_retval)
 {
 	struct DSP_UUID death;
-	struct timespec time;
+	struct DSP_MSG msg;
 	DSP_HNODE node;
 	DBAPI status, retval;
 	bool failed;
 
 	failed = true;
+	retval = 0xFACEBEE5;
 
 	/* Seeing how we're likely to rebuild and munge binaries quite often,
 	 * we start testing with unregistering then registering the binary
@@ -74,17 +75,37 @@ run_test(const char *testname, char *filename, int testnum,
 		goto out;
 	}
 
-	/* Wait a bit */
-	time.tv_sec = 0;
-	time.tv_nsec = 100000000; /* 100ms */
-	nanosleep(&time, NULL);
+	status = DSPNode_GetMessage(node, &msg, 3000);
+	if (DSP_FAILED(status)) {
+		printf("DSP node did not issue \"enter\" message (%X)- DSP "
+			"side environment may be corrupt\n", status);
+		goto out;
+	} else if (msg.dwCmd) {
+		printf("DSP issued unrecognized command (%d) - stack or memory "
+			"corruption?\n", msg.dwCmd);
+		goto out;
+	}
+
+	status = DSPNode_GetMessage(node, &msg, 3000);
+	if (DSP_FAILED(status)) {
+		printf("DSP node did not issue \"exit\" message (%X) - DSP "
+			"side environment may be corrupt\n", status);
+		goto out;
+	} else if (msg.dwCmd != 1) {
+		printf("DSP node completed with unrecognized message (%d)\n",
+			msg.dwCmd);
+		goto out;
+	}
 
 	status = DSPNode_Terminate(node, &retval);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't terminate node, %X\n", status);
-	} else if (retval == wanted_retval) {
-		failed = false;
 	}
+
+	retval = msg.dwArg1;
+
+	if (retval == wanted_retval)
+		failed = true;
 
 	/* Finally, unregister node */
 	out:
@@ -92,8 +113,8 @@ run_test(const char *testname, char *filename, int testnum,
 	DSPManager_UnregisterObject(&death, DSP_DCDNODETYPE);
 	DSPManager_UnregisterObject(&death, DSP_DCDLIBRARYTYPE);
 
-	printf("TEST %d %s: %s\n", testnum, (failed) ? "failed" : "passed",
-								testname);
+	printf("TEST %d %s: %s (%X)\n", testnum, (failed) ? "failed" : "passed",
+							testname, retval);
 
 	return (failed) ? 1 : 0;
 }
