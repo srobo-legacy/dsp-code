@@ -31,7 +31,17 @@
 		mvk	.S2	-1,		B6
 		; node ptr conveniently stays in A4
 		callp	.S2	_NODE_putMsg
-
+; Call test code - TODO
+		mvk	.S1	0,	A4		; Load zero for now
+; Send exit status back to MPU
+		mvk	.S1	1,	A0
+		stw	.D1T1	A0,	*-A15(0x14)
+		stw	.D1T1	A0,	*-A15(0x10)
+		ldw	.D1T1	*-A15(8),	A4
+		mvk	.S2	0,		B4
+		sub	.D1	A15,	0x14,	A6
+		mvk	.S2	-1,		B6
+		callp	.S2	_NODE_putMsg
 ; Leave
 		ldw	.D1T2	*-A15(4),	B3
 		ldw	.D1T1	*A15,		A0
