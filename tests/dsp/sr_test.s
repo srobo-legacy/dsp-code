@@ -36,7 +36,7 @@
 ; Send exit status back to MPU
 		mvk	.S1	1,	A0
 		stw	.D1T1	A0,	*-A15(0x14)
-		stw	.D1T1	A0,	*-A15(0x10)
+		stw	.D1T1	A4,	*-A15(0x10)
 		ldw	.D1T1	*-A15(8),	A4
 		mvk	.S2	0,		B4
 		sub	.D1	A15,	0x14,	A6
