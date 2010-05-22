@@ -18,12 +18,12 @@ static const char __attribute__((section(".dcd_register"))) dcd_register[] =
  * which extracts various pieces of information from it, see below */
 static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
         "1024," SR_NODE_GUID_STRING ",nodename,"
-	"1,0,1024,512,128,3072,0,0,0,0,0,0,1024,1024,0,10,1,1,7d0H,"
+	"1,0,1024,512,128,3072,5,3,1000,100,10,1,1024,16,0,2,0,0,7d0H,"
 	SR_NODE_CREATE_FUNC ","
 	SR_NODE_EXECUTE_FUNC ","
 	SR_NODE_DELETE_FUNC
 	",0,32768," SR_NODE_NAME
-	",1,ff3f3f3fH,ff3f3f3fH,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,stackSeg,";
+	",1,ff3f3f3fH,ff3f3f3fH,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,stackSegName,";
 
 /* Data is supposed to contain the following, names from a TI script:
  * 	1024,`guid`,`nodeTypeVal`,`bCacheVal`,
@@ -46,7 +46,9 @@ static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
  *      (and the error path of which panics.
  *      Node Name musn't have a space in it, or bridgedriver hangs in strtok.
  *      For everything else, we have the names of the values, but for what they
- *      do and which ones bridgedriver honours, your guess is as good as mine */
+ *      do and which ones bridgedriver honours, your guess is as good as mine
+ *      stackSegName must be important, if it's changed all node communication
+ *      times out. No idea why. */
 
 #else /*_TESTS_DSP_SR_DCD_H_*/
 #error Dont include sr_dcd.h more than once, dspbridge will hate you
