@@ -16,7 +16,7 @@ bees()
 }
 
 int
-main()
+test_main()
 {
 
 	bees();
