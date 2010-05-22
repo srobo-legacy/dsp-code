@@ -1,6 +1,6 @@
 CC = env CROSS_COMPILE=tic64x- llvmc
 CFLAGS = -Wllc,-march,tms320c64x -hosttools -I../../dsp_include
-LDFLAGS = --oformat=doff-c64x
+LDFLAGS = --oformat=doff-c64x,-r
 
 CFLAGS += -W -Wall -Wextra -Werror -ansi -pedantic
 
