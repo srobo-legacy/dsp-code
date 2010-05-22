@@ -36,6 +36,7 @@ tgz: $(OBJS) tests.xml
 
 clean:
 	-rm *.doff
+	-rm *.o
 	-rm *.xml
 
 .PHONEY: clean
