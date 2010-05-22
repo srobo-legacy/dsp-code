@@ -22,7 +22,7 @@ static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
 	SR_NODE_CREATE_FUNC ","
 	SR_NODE_EXECUTE_FUNC ","
 	SR_NODE_DELETE_FUNC
-	",0,32768," SR_NODE_NAME
+	",0,32768,sr_test_node"	/* node name must not contain a space, hangs */
 	",1,ff3f3f3fH,ff3f3f3fH,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,stackSegName,";
 
 /* Data is supposed to contain the following, names from a TI script:
