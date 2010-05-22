@@ -1,21 +1,27 @@
 CC = env CROSS_COMPILE=tic64x- llvmc
 CFLAGS = -Wllc,-march,tms320c64x -hosttools -I../../dsp_include
-LDFLAGS = --oformat=doff-c64x,-r
+LDFLAGS = --oformat=doff-c64x -r
 
-CFLAGS += -W -Wall -Wextra -Werror -ansi -pedantic
+CFLAGS += -W -Wall -Wextra -Werror -ansi -pedantic -Wl,-r
 
 OBJS = start.doff retval.doff voidcall.doff
 TESTS = ${OBJS:.doff=.xml}
 
 .SUFFIXES: .c .doff .xml
 
-.c.doff:
-	$(CC) sr_test.o $< -o $@ $(CFLAGS) -Wl,$(LDFLAGS)
+.c.o:
+	$(CC) $< -o $@ $(CFLAGS)
+
+.s.o:
+	$(CC) $< -o $@ $(CFLAGS)
+
+.o.doff:
+	tic64x-ld sr_test.o $< -o $@ $(LDFLAGS)
 
 .c.xml:
 	$(CC) $< -o $@ -E -DGENERATE_XML -Wp,-P
 
-all: $(OBJS) tests.xml tgz
+all: sr_test.o $(OBJS) tests.xml tgz
 
 sr_test.o: sr_test.s
 	tic64x-as sr_test.s -o sr_test.o
