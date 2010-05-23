@@ -1,4 +1,4 @@
-#define SR_TEST_NAME "Test mul operatin"
+#define SR_TEST_NAME "Test mul operation"
 #define SR_TEST_RET_VAL 0xFF00
 #define SR_TEST_FILENAME mul.doff
 #define SR_TEST_NUM 6

@@ -1,4 +1,4 @@
-#define SR_TEST_NAME "Test add operatin"
+#define SR_TEST_NAME "Test add operation"
 #define SR_TEST_RET_VAL 0x3A3A
 #define SR_TEST_FILENAME add.doff
 #define SR_TEST_NUM 4
