@@ -1,4 +1,4 @@
-#define SR_TEST_NAME "Test < operation"
+#define SR_TEST_NAME "Test less-than operation"
 #define SR_TEST_RET_VAL 0x4
 #define SR_TEST_FILENAME cmplt.doff
 #define SR_TEST_NUM D
