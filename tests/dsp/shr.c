@@ -1,5 +1,6 @@
 #define SR_TEST_NAME "Test shr operation"
-#define SR_TEST_RET_VAL 0xFFFFFF00
+/* strtol saturates at max signed int, so we can't give value in raw hex */
+#define SR_TEST_RET_VAL -100
 #define SR_TEST_FILENAME shr.doff
 #define SR_TEST_NUM 7
 #define SR_TEST_NUM_STR "00000007"
