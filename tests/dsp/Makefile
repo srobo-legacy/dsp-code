@@ -7,7 +7,7 @@ CFLAGS += -W -Wall -Wextra -Werror -ansi -pedantic -Wl,-r
 OBJS = start.doff retval.doff voidcall.doff argcall.doff \
 	add.doff sub.doff mul.doff shr.doff shl.doff shru.doff \
 	and.doff or.doff xor.doff \
-	cmplt.doff
+	cmplt.doff cmpgt.doff
 
 TESTS = ${OBJS:.doff=.xml}
 
