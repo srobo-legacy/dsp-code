@@ -1,7 +1,6 @@
 #define SR_TEST_NAME "Test mul operation"
 #define SR_TEST_RET_VAL 0xFF00
 #define SR_TEST_FILENAME mul.doff
-#define SR_TEST_NUM 6
 #define SR_TEST_NUM_STR "00000006"
 
 #include "sr_test.h"

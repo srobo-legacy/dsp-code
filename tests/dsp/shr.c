@@ -2,7 +2,6 @@
 /* strtol saturates at max signed int, so we can't give value in raw hex */
 #define SR_TEST_RET_VAL -100
 #define SR_TEST_FILENAME shr.doff
-#define SR_TEST_NUM 7
 #define SR_TEST_NUM_STR "00000007"
 
 #include "sr_test.h"

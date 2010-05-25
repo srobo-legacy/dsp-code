@@ -1,7 +1,6 @@
 #define SR_TEST_NAME "Test greater-than operation"
 #define SR_TEST_RET_VAL 0x14
 #define SR_TEST_FILENAME cmpgt.doff
-#define SR_TEST_NUM E
 #define SR_TEST_NUM_STR "0000000E"
 
 #include "sr_test.h"

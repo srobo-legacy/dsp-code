@@ -1,7 +1,6 @@
 #define SR_TEST_NAME "Test shru operation"
 #define SR_TEST_RET_VAL 0x00FF0000
 #define SR_TEST_FILENAME shru.doff
-#define SR_TEST_NUM 9
 #define SR_TEST_NUM_STR "00000009"
 
 #include "sr_test.h"

@@ -3,7 +3,6 @@
 		<name>SR_TEST_NAME</name>
 		<retval>SR_TEST_RET_VAL</retval>
 		<filename>SR_TEST_FILENAME</filename>
-		<nodenum>SR_TEST_NUM</nodenum>
 	</test>
 #else
 
