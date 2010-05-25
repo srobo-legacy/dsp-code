@@ -47,6 +47,10 @@ parse_test(xmlDocPtr doc, xmlNodePtr test)
 		} else if (!xmlStrcmp("nodenum", subnode->name)) {
 			tmp = xmlNodeListGetString(doc,
 					subnode->xmlChildrenNode, 1);
+
+			/* The string is preceeded by a " character */
+			if (*tmp != '\0')
+				tmp += 1;
 			testnum = strtol(tmp, &endptr, 16);
 			if (endptr == tmp) {
 				fprintf(stderr, "\"%s\" is not a node number\n",
