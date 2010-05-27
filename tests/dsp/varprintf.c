@@ -1,7 +1,7 @@
-#define SR_TEST_NAME "printf"
+#define SR_TEST_NAME "var-arg printf call"
 #define SR_TEST_RET_VAL 0x0
-#define SR_TEST_FILENAME printf.doff
-#define SR_TEST_NUM_STR "00000017"
+#define SR_TEST_FILENAME varprintf.doff
+#define SR_TEST_NUM_STR "00000018"
 
 #include "sr_test.h"
 
