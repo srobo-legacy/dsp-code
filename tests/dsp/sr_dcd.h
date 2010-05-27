@@ -9,6 +9,13 @@
 #ifndef _TESTS_DSP_SR_DCD_H_
 #define _TESTS_DSP_SR_DCD_H_
 
+#ifndef SR_NODE_INPUT_STREAMS
+#define SR_NODE_INPUT_STREAMS "0"
+#endif
+#ifndef SR_NODE_OUTPUT_STREAMS
+#define SR_NODE_OUTPUT_STREAMS "0"
+#endif
+
 /* Generate dcd_register section - this contains one or more comma seperated (?)
  * guids to be found and registered by dynreg */
 static const char __attribute__((section(".dcd_register"))) dcd_register[] =
@@ -18,7 +25,10 @@ static const char __attribute__((section(".dcd_register"))) dcd_register[] =
  * which extracts various pieces of information from it, see below */
 static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
         "1024," SR_NODE_GUID_STRING ",nodename,"
-	"1,0,1024,512,128,3072,5,3,1000,100,10,1,1024,16,0,2,0,0,7d0H,"
+	"1,0,1024,512,128,3072,5,3,1000,100,10,1,1024,16,0,2,"
+	SR_NODE_INPUT_STREAMS ","
+	SR_NODE_OUTPUT_STREAMS ","
+	"7d0H," /* timeout */
 	SR_NODE_CREATE_FUNC ","
 	SR_NODE_EXECUTE_FUNC ","
 	SR_NODE_DELETE_FUNC
