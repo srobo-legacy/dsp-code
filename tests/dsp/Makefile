@@ -9,7 +9,7 @@ OBJS = start.doff retval.doff voidcall.doff argcall.doff \
 	and.doff or.doff xor.doff \
 	addi.doff subi.doff andi.doff ori.doff xori.doff \
 	cmplt.doff cmpgt.doff cmplte.doff cmpgte.doff cmpeq.doff cmpneq.doff \
-	addi.doff printf.doff \
+	addi.doff printf.doff varprintf.doff
 
 TESTS = ${OBJS:.doff=.xml}
 
