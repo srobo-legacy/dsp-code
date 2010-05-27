@@ -1,5 +1,5 @@
 #define SR_TEST_NAME "Test or-immediate operation"
-#define SR_TEST_RET_VAL 0xD
+#define SR_TEST_RET_VAL 0xF
 #define SR_TEST_FILENAME ori.doff
 #define SR_TEST_NUM_STR "00000015"
 
