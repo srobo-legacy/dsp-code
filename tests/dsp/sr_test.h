@@ -16,6 +16,6 @@ int sr_node_delete();
 #define SR_NODE_DELETE_FUNC "main"
 #define SR_NODE_NAME SR_TEST_NAME
 
-#include "sr_dcd.h"
+#include <sr_dcd.h>
 
 #endif
