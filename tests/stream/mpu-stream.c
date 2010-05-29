@@ -168,7 +168,7 @@ main(int argc, char **argv)
 	}
 
 	/* Create some streams to plug into dsp node */
-	attrs.uSegid = DSP_SHMSEG0; /* Allocate in shared mem segment? */
+	attrs.uSegid = 0;
 	attrs.uBufsize = 1024; /* Words not byte */
 	attrs.uNumBufs = 1;
 	attrs.uAlignment = 0;
