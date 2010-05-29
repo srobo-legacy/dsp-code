@@ -142,3 +142,62 @@ dereg_node(struct DSP_UUID *uuid)
 	DSPManager_UnregisterObject(uuid, DSP_DCDNODETYPE);
 	DSPManager_UnregisterObject(uuid, DSP_DCDLIBRARYTYPE);
 }
+
+int
+main(int argc, char **argv)
+{
+	DSP_UUID uuid;
+	DSP_STRMATTR attrs;
+	DSP_HNODE node;
+	DBAPI status;
+
+	if (check_dsp_open()) {
+		fprintf(stderr, "Can't open DSP\n");
+		return 1;
+	}
+
+	/* Register and create the dsp node, but don't create */
+	node = register_and_create(&uuid);
+	if (node == NULL) {
+		fprintf(stderr, "Couldn't allocate dsp node\n");
+		return 1;
+	}
+
+	/* Create some streams to plug into dsp node */
+	attrs.uSegid = DSP_SHMSEG0; /* Allocate in shared mem segment? */
+	attrs.uBufsize = 1024; /* Words not byte */
+	attrs.uNumBufs = 1;
+	attrs.uAlignment = 0;
+	attrs.uTimeout = 10000; /* No idea what scale this is */
+	attrs.lMode = STRMMODE_ZEROCOPY; /* mmap'd? */
+
+	status = DSPNode_Connect(node, 0, DSP_HGPPNODE, 0, &attrs);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't create dsp output stream, %X\n",
+				status);
+		return 1;
+	}
+
+	status = DSPNode_Connect(DSP_HGPPNODE, 0, node, 0, &attrs);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't create dsp intpu stream, %X\n",
+				status);
+		return 1;
+	}
+
+	/* Hmkay, now it should be possible to create and execute node */
+	if (create(node))
+		goto out;
+
+	if (run(node))
+		goto out;
+
+	/* XXX - do some stuff with streams */
+
+	out:
+	terminate(node);
+	dereg_node(&uuid);
+	close_dsp();
+
+	return 0;
+}
