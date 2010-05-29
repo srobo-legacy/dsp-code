@@ -14,7 +14,7 @@
 
 #include <sr_dcd.h>
 
-void *MEM_alloc(int seg_id, int size, int align);
+void *MEM_valloc(int seg_id, int size, int align);
 
 struct state {
 	STRM_Handle in_handle;
@@ -44,7 +44,7 @@ create(int arg_len, char *arg_str, int num_in_streams,
 	struct state *s;
 	RMS_StrmDef *strm_def;
 
-	s = MEM_alloc(0, sizeof(struct state), 0);
+	s = MEM_valloc(0, sizeof(struct state), 0);
 	node->moreEnv = s;
 	if (s == NULL)
 		return RMS_EOUTOFMEMORY;
