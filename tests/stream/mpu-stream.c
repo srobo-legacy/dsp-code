@@ -67,24 +67,24 @@ register_and_create(struct DSP_UUID *uuid)
 	DSPManager_UnregisterObject(uuid, DSP_DCDNODETYPE);
 	DSPManager_UnregisterObject(uuid, DSP_DCDLIBRARYTYPE);
 
-	status = DSPManager_RegisterObject(uuid, DSP_DCDNODETYPE,filename);
+	status = DSPManager_RegisterObject(uuid, DSP_DCDNODETYPE,
+						"dsp-stream.doff");
 	if (DSP_FAILED(status)) {
-		fprintf(stderr, "Couldn't register file \"%s\": missing?\n",
-								filename);
+		fprintf(stderr, "Couldn't register file, doff missing?\n");
 		return NULL;
 	}
-	status = DSPManager_RegisterObject(uuid, DSP_DCDLIBRARYTYPE, filename);
+	status = DSPManager_RegisterObject(uuid, DSP_DCDLIBRARYTYPE,
+						"dsp-stream.doff");
 	if (DSP_FAILED(status)) {
-		fprintf(stderr, "Couldn't register file \"%s\": missing?\n",
-								filename);
+		fprintf(stderr, "Couldn't register file, doff missing?\n");
 		return NULL;
 	}
 
 	/* Right - it's registered. Now lets try and run it. */
 	status = DSPNode_Allocate(dsp_handle, uuid, NULL, NULL, &node);
 	if (DSP_FAILED(status)) {
-		fprintf(stderr, "Failed to allocate node for \"%s\": not a "
-				"code problem, something else?\n", filename);
+		fprintf(stderr, "Failed to allocate node (%X): not a "
+				"code problem, something else?\n", status);
 		return NULL;
 	}
 
