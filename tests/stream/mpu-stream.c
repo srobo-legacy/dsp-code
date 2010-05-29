@@ -126,8 +126,10 @@ main(int argc, char **argv)
 	uint8_t input_buffer[1024];
 	struct DSP_UUID uuid;
 	struct DSP_STRMATTR attrs;
+	uint8_t *reclaimed;
 	DSP_HNODE node;
 	DSP_HSTREAM str_in, str_out;
+	unsigned long reclaimed_bytes, reclaimed_sz, reclaimed_baton;
 	DBAPI status;
 
 	if (check_dsp_open()) {
@@ -204,7 +206,54 @@ main(int argc, char **argv)
 		fprintf(stderr,  "Couldn't prepare dsp output buffer\n");
 		goto streamout;
 	}
-		
+
+	/* Actually do some things */
+	memset(input_buffer, 0, sizeof(input_buffer));
+	memset(output_buffer, 0, sizeof(output_buffer));
+
+	/* Put buffer into streams - zeros should arrive at dsp */
+	status = DSPStream_Issue(str_in, input_buffer, 1024, 1024, 0);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't issue buffer to input stream: %X\n",
+				status);
+		goto streamout;
+	}
+
+	status = DSPStream_Reclaim(str_in, &reclaimed, &reclaimed_bytes,
+					&reclaimed_sz, &reclaimed_baton);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't retrieve buffer from input stream: "
+				"%X\n", status);
+		goto streamout;
+	}
+
+	/* Now issue buffer into output stream, retrieve output */
+	status = DSPStream_Issue(str_out, output_buffer, 1024, 1024, 0);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't put output buffer into stream: %X\n",	
+				status);
+		goto streamout;
+	}
+
+	status = DSPStream_Reclaim(str_out, &reclaimed, &reclaimed_bytes,
+					&reclaimed_sz, &reclaimed_baton);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't retrieve output buffer from stream: "
+				"%X\n", status);
+		goto streamout;
+	}
+
+	/* Let's actually see whether anything happened to it */
+	if (reclaimed_bytes != 1024) {
+		fprintf(stderr, "Reclaimed buffer is not of expected size\n");
+	} else {
+		memset(input_buffer, 1, sizeof(input_buffer));
+		if (!memcmp(reclaimed, input_buffer, reclaimed_bytes)) {
+			fprintf(stderr, "It matched! :O\n");
+		} else {
+			fprintf(stderr, "Data in output buffer didn't match\n");
+		}
+	}
 
 	streamout:
 	DSPStream_UnprepareBuffer(str_in, sizeof(input_buffer), input_buffer);
