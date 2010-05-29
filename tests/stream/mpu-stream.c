@@ -92,34 +92,6 @@ register_and_create(struct DSP_UUID *uuid)
 }
 
 int
-create(DSP_HNODE node)
-{
-	DBAPI status;
-
-	status = DSPNode_Create(node);
-	if (DSP_FAILED(status)) {
-		fprintf(stderr, "Couldn't create dsp node: %X\n", status);
-		return 1;
-	}
-
-	return 0;
-}
-
-int
-run(DSP_HNODE node)
-{
-	DBAPI status;
-
-	status = DSPNode_Run(node);
-	if (DSP_FAILED(status)) {
-		fprintf(stderr, "Couldn't run dsp node: %X\n", status);
-		return 1;
-	}
-
-	return 0;
-}
-
-int
 terminate(DSP_HNODE node)
 {
 	DBAPI status;
@@ -133,7 +105,6 @@ terminate(DSP_HNODE node)
 	status = DSPNode_Terminate(node, &retval);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't terminate node, %X\n", status);
-		return 1;
 	}
 
 	return 0;
@@ -191,11 +162,17 @@ main(int argc, char **argv)
 	}
 
 	/* Hmkay, now it should be possible to create and execute node */
-	if (create(node))
+	status = DSPNode_Create(node);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't create dsp node: %X\n", status);
 		goto out;
+	}
 
-	if (run(node))
+	status = DSPNode_Run(node);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't run dsp node: %X\n", status);
 		goto out;
+	}
 
 	status = DSPStream_Open(node, DSP_TONODE, 0, NULL, &str_in);
 	if (DSP_FAILED(status)) {
