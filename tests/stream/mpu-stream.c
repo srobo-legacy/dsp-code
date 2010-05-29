@@ -146,7 +146,7 @@ main(int argc, char **argv)
 
 	/* Create some streams to plug into dsp node */
 	attrs.uSegid = 0;
-	attrs.uBufsize = 1024; /* Words not byte */
+	attrs.uBufsize = 256; /* Words not byte */
 	attrs.uNumBufs = 1;
 	attrs.uAlignment = 0;
 	attrs.uTimeout = 10000; /* No idea what scale this is */
