@@ -53,18 +53,17 @@ register_and_create(struct DSP_UUID *uuid)
 	retval = 0xFACEBEE5;
 
 	/* Generate a uuid to feed bridge api */
-	uuid->ulData1 = 0xFACEBEE5;
-	uuid->usData2 = 0xFACE;
-	uuid->usData3 = 0xBEE5;
-	uuid->ucData4 = 0xFA;
-	uuid->ucData5 = 0xCE;
-	uuid->ucData6[0] = 0xBE;
-	uuid->ucData6[1] = 0xE5;
-	uuid->ucData6[2] = 0xAA;
-	uuid->ucData6[3] = 0xAA;
-	uuid->ucData6[4] = 0xAA;
-	uuid->ucData6[5] = 0xAA;
-
+	uuid->ulData1 = 0x7129518D;
+	uuid->usData2 = 0xCB99;
+	uuid->usData3 = 0x449C;
+	uuid->ucData4 = 0x80;
+	uuid->ucData5 = 0x20;
+	uuid->ucData6[0] = 0x5B;
+	uuid->ucData6[1] = 0xBE;
+	uuid->ucData6[2] = 0x90;
+	uuid->ucData6[3] = 0xCA;
+	uuid->ucData6[4] = 0xD8;
+	uuid->ucData6[5] = 0xA0;
 	DSPManager_UnregisterObject(uuid, DSP_DCDNODETYPE);
 	DSPManager_UnregisterObject(uuid, DSP_DCDLIBRARYTYPE);
 
