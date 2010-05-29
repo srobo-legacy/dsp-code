@@ -39,30 +39,30 @@ create(int arg_len, char *arg_str, int num_in_streams,
 	if (s == NULL)
 		return RMS_EOUTOFMEMORY;
 
-	strm_def = (RMS_StrmDef *)in_def[0]
+	strm_def = (RMS_StrmDef *)in_stream_handles[0];
 	attrs.nbufs = strm_def->nbufs;
 	attrs.segid = strm_def->segid;
 	attrs.timeout = strm_def->timeout;
 	attrs.align = strm_def->align;
 
-	state->in_handle = STRM_create(strm_def->name, STRM_INPUT,
+	s->in_handle = STRM_create(strm_def->name, STRM_INPUT,
 					strm_def->bufsize, &attrs);
-	state->in_size = strm_def->bufsize;
+	s->in_size = strm_def->bufsize;
 
-	strm_def = (RMS_StrmDef *)out_def[0]
+	strm_def = (RMS_StrmDef *)out_stream_handles[0];
 	attrs.nbufs = strm_def->nbufs;
 	attrs.segid = strm_def->segid;
 	attrs.timeout = strm_def->timeout;
 	attrs.align = strm_def->align;
 
-	state->out_handle = STRM_create(strm_def->name, STRM_OUTPUT,
-					strm_dev->bufsize, *attrs);
-	state->out_size = strm_def->bufsize;
+	s->out_handle = STRM_create(strm_def->name, STRM_OUTPUT,
+					strm_def->bufsize, &attrs);
+	s->out_size = strm_def->bufsize;
 
 	s->in_buf = (void *)STRM_allocateBuffer(s->in_handle, s->in_size);
 	s->out_buf = (void *)STRM_allocateBuffer(s->out_handle,s->out_size);
 
-	if (state->in_buf == NULL || state->out_buf == NULL)
+	if (s->in_buf == NULL || s->out_buf == NULL)
 		return RMS_EOUTOFMEMORY;
 
 	_SYS_printf("Won create phase\n");
