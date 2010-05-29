@@ -26,11 +26,11 @@ struct state {
 };
 
 int
-create(int arg_len, char *arg_str, itn num_in_streams,
+create(int arg_len, char *arg_str, int num_in_streams,
 		uint32_t in_stream_handles[], int num_out_streams,
 		uint32_t out_stream_handles[], NODE_EnvPtr node)
 {
-	STRM_Attrs attrs = STRM_ATTRS;
+	STRM_Attrs attrs;
 	struct state *s;
 	RMS_StrmDef *strm_def;
 
