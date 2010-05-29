@@ -125,7 +125,10 @@ terminate(DSP_HNODE node)
 	DBAPI status;
 	DSP_STATUS retval;
 
-	DSPNode_Delete(node);
+	status = DSPNode_Delete(node);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Error deleting node, %X\n");
+	}
 
 	status = DSPNode_Terminate(node, &retval);
 	if (DSP_FAILED(status)) {
