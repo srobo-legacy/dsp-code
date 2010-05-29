@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -121,6 +122,8 @@ dereg_node(struct DSP_UUID *uuid)
 int
 main(int argc, char **argv)
 {
+	uint8_t output_buffer[1024];
+	uint8_t input_buffer[1024];
 	struct DSP_UUID uuid;
 	struct DSP_STRMATTR attrs;
 	DSP_HNODE node;
@@ -178,18 +181,32 @@ main(int argc, char **argv)
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't open dsp input stream (%X)\n",
 				status);
-		goto out;
+		goto streamout;
 	}
 
 	status = DSPStream_Open(node, DSP_FROMNODE, 0, NULL, &str_out);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't open dsp output stream (%X)\n",
 				status);
-		goto out;
+		goto streamout;
 	}
 
-	/* XXX - do some stuff with streams */
+	status = DSPStream_PrepareBuffer(str_in, sizeof(input_buffer),
+							input_buffer);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't prepare dsp input buffer\n");
+		goto streamout;
+	}
 
+	status = DSPStream_PrepareBuffer(str_out, sizeof(output_buffer),
+							output_buffer);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr,  "Couldn't prepare dsp output buffer\n");
+		goto streamout;
+	}
+		
+
+	streamout:
 	status = DSPStream_Close(str_in);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't close dsp input stream (%X)\n",
