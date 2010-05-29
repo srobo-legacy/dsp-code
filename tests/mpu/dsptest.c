@@ -51,7 +51,7 @@ parse_test(xmlDocPtr doc, xmlNodePtr test)
 			/* The string is preceeded by a " character */
 			if (*tmp != '\0')
 				tmp += 1;
-			testnum = strtol(tmp, &endptr, 16);
+			testnum = strtoul(tmp, &endptr, 16);
 			if (endptr == tmp) {
 				fprintf(stderr, "\"%s\" is not a node number\n",
 									tmp);
@@ -60,7 +60,7 @@ parse_test(xmlDocPtr doc, xmlNodePtr test)
 		} else if (!xmlStrcmp("retval", subnode->name)) {
 			tmp = xmlNodeListGetString(doc,
 					subnode->xmlChildrenNode, 1);
-			wanted_retval = strtol(tmp, &endptr, 16);
+			wanted_retval = strtoul(tmp, &endptr, 16);
 			got_retval = true;
 			if (endptr == tmp) {
 				fprintf(stderr, "\"%s\" is not a return val\n",
