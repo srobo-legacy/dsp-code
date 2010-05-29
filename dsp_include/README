@@ -8,3 +8,13 @@ To get the headers, download:
 Extract it to a directory, and from there copy the contents of
 	dsp/ti/dspbridge/dsp/bridge_product/exports/include/
 To the directory containing this README file.
+
+UPDATE
+
+Looks like another pre-requisite is to have headers for TIs dspbios, which is
+undoubtedly going to be painful. I've added four headers containing some dummy
+structs, which give headers enough information to build. However, this means
+queues, semaphores and some other constructs are incorrectly sized to interface
+with the rest of the DSP environment. Which is OK, because hopefully we won't
+be using them unless we actually touch upon dspbios, in which case we'll be
+using its headers anyway.
