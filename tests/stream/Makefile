@@ -1,3 +1,4 @@
+CC=	arm-angstrom-linux-gnueabi-gcc
 
 bees:
 	echo "Build either dsp-stream.doff or mpu-stream"
@@ -7,3 +8,6 @@ dsp-stream.o: dsp-stream.c
 
 dsp-stream.doff: dsp-stream.o
 	tic64x-ld dsp-stream.o -o dsp-stream.doff --oformat=doff-c64x -r
+
+mpu-stream: mpu-stream.c
+	$(CC) mpu-stream.c -o $@ -I../../mpu_include
