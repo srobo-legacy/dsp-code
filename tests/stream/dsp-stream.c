@@ -25,6 +25,16 @@ struct state {
 	void *out_buf;
 };
 
+void
+panic()
+{
+	int *beards;
+
+	beards = (void*) 0xFACEBEE5;
+	*beards = 0;
+	return;
+}
+
 int
 create(int arg_len, char *arg_str, int num_in_streams,
 		uint32_t in_stream_handles[], int num_out_streams,
