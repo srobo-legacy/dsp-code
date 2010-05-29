@@ -88,18 +88,27 @@ register_and_create(struct DSP_UUID *uuid)
 		return NULL;
 	}
 
+	return node;
+}
+
+int
+create(DSP_HNODE node)
+{
+	DBAPI status;
+
 	status = DSPNode_Create(node);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't create dsp node: %X\n", status);
-		return NULL;
+		return 1;
 	}
 
-	return Node;
+	return 0;
 }
 
 int
 run(DSP_HNODE node)
 {
+	DBAPI status;
 
 	status = DSPNode_Run(node);
 	if (DSP_FAILED(status)) {
@@ -113,6 +122,9 @@ run(DSP_HNODE node)
 int
 terminate(DSP_HNODE node)
 {
+	DBAPI status;
+
+	DSPNode_Delete(node);
 
 	status = DSPNode_Terminate(node, &retval);
 	if (DSP_FAILED(status)) {
@@ -124,10 +136,9 @@ terminate(DSP_HNODE node)
 }
 
 void
-delete_and_dereg_node(DSP_HNODE node, struct DSP_UUID *uuid)
+dereg_node(struct DSP_UUID *uuid)
 {
 
-	DSPNode_Delete(node);
 	DSPManager_UnregisterObject(uuid, DSP_DCDNODETYPE);
 	DSPManager_UnregisterObject(uuid, DSP_DCDLIBRARYTYPE);
 }
