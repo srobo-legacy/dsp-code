@@ -170,7 +170,7 @@ main(int argc, char **argv)
 	attrs.uNumBufs = 1;
 	attrs.uAlignment = 0;
 	attrs.uTimeout = 10000; /* No idea what scale this is */
-	attrs.lMode = STRMMODE_ZEROCOPY; /* mmap'd? */
+	attrs.lMode = STRMMODE_PROCCOPY;
 
 	status = DSPNode_Connect(node, 0, (void*)DSP_HGPPNODE, 0, &attrs);
 	if (DSP_FAILED(status)) {
