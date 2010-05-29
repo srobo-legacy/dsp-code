@@ -153,6 +153,7 @@ main(int argc, char **argv)
 	struct DSP_UUID uuid;
 	struct DSP_STRMATTR attrs;
 	DSP_HNODE node;
+	DSP_HSTREAM str_in, str_out;
 	DBAPI status;
 
 	if (check_dsp_open()) {
@@ -196,7 +197,33 @@ main(int argc, char **argv)
 	if (run(node))
 		goto out;
 
+	status = DSPStream_Open(node, DSP_TONODE, 0, NULL, &str_in);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't open dsp input stream (%X)\n",
+				status);
+		goto out;
+	}
+
+	status = DSPStream_Open(node, DSP_FROMNODE, 0, NULL, &str_out);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't open dsp output stream (%X)\n",
+				status);
+		goto out;
+	}
+
 	/* XXX - do some stuff with streams */
+
+	status = DSPStream_Close(str_in);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldn't close dsp input stream (%X)\n",
+				status);
+	}
+
+	status = DSPStream_Close(str_out);
+	if (DSP_FAILED(status)) {
+		fprintf(stderr, "Couldnt close ddsp output stream (%X)\n",
+				status);
+	}
 
 	out:
 	terminate(node);
