@@ -123,6 +123,7 @@ int
 terminate(DSP_HNODE node)
 {
 	DBAPI status;
+	DSP_STATUS retval;
 
 	DSPNode_Delete(node);
 
@@ -146,8 +147,8 @@ dereg_node(struct DSP_UUID *uuid)
 int
 main(int argc, char **argv)
 {
-	DSP_UUID uuid;
-	DSP_STRMATTR attrs;
+	struct DSP_UUID uuid;
+	struct DSP_STRMATTR attrs;
 	DSP_HNODE node;
 	DBAPI status;
 
@@ -171,14 +172,14 @@ main(int argc, char **argv)
 	attrs.uTimeout = 10000; /* No idea what scale this is */
 	attrs.lMode = STRMMODE_ZEROCOPY; /* mmap'd? */
 
-	status = DSPNode_Connect(node, 0, DSP_HGPPNODE, 0, &attrs);
+	status = DSPNode_Connect(node, 0, (void*)DSP_HGPPNODE, 0, &attrs);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't create dsp output stream, %X\n",
 				status);
 		return 1;
 	}
 
-	status = DSPNode_Connect(DSP_HGPPNODE, 0, node, 0, &attrs);
+	status = DSPNode_Connect((void*)DSP_HGPPNODE, 0, node, 0, &attrs);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't create dsp intpu stream, %X\n",
 				status);
