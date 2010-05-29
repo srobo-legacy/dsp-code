@@ -75,8 +75,6 @@ create(int arg_len, char *arg_str, int num_in_streams,
 	if (s->in_buf == NULL || s->out_buf == NULL)
 		return RMS_EOUTOFMEMORY;
 
-	_SYS_printf("Won create phase\n");
-
 	return 0;
 }
 
@@ -93,6 +91,10 @@ delete(NODE_EnvPtr node)
 	struct state *s;
 
 	s = node->moreEnv;
+	STRM_freeBuffer(s->in_handle, s->in_buf, s->in_size);
+	STRM_freeBuffer(s->out_handle, s->out_buf, s->out_size);
+	STRM_delete(s->in_handle);
+	STRM_delete(s->out_handle);
 	MEM_free(0, s, sizeof(*s));
 
 	return 0;
