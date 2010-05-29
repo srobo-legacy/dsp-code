@@ -14,7 +14,7 @@
 
 #include <sr_dcd.h>
 
-void *MEM_alloc(int, int, int);
+void *MEM_alloc(int seg_id, int size, int align);
 
 struct state {
 	STRM_Handle in_handle;
