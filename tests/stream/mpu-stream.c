@@ -207,6 +207,9 @@ main(int argc, char **argv)
 		
 
 	streamout:
+	DSPStream_UnprepareBuffer(str_in, sizeof(input_buffer), input_buffer);
+	DSPStream_UnprepareBuffer(str_out, sizeof(output_buffer),output_buffer);
+
 	status = DSPStream_Close(str_in);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't close dsp input stream (%X)\n",
