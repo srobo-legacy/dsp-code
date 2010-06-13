@@ -45,14 +45,11 @@ create(int arg_len, char *arg_str, int num_in_streams,
 	struct state *s;
 	RMS_StrmDef *strm_def;
 
-	SYS_printf("beards\n");
-
 	s = MEM_valloc(0, sizeof(struct state), 0);
 	node->moreEnv = s;
 	if (s == NULL)
 		return RMS_EOUTOFMEMORY;
 
-	SYS_printf("Allocated state ptr %x\n", s);
 	strm_def = (RMS_StrmDef *)in_stream_handles[0];
 	attrs.nbufs = strm_def->nbufs;
 	attrs.segid = strm_def->segid;
@@ -62,7 +59,6 @@ create(int arg_len, char *arg_str, int num_in_streams,
 	s->in_handle = STRM_create(strm_def->name, STRM_INPUT,
 					strm_def->bufsize, &attrs);
 	s->in_size = strm_def->bufsize;
-	SYS_printf("in handle %x, in size %x\n", s->in_handle, s->in_size);
 
 	strm_def = (RMS_StrmDef *)out_stream_handles[0];
 	attrs.nbufs = strm_def->nbufs;
@@ -72,13 +68,10 @@ create(int arg_len, char *arg_str, int num_in_streams,
 
 	s->out_handle = STRM_create(strm_def->name, STRM_OUTPUT,
 					strm_def->bufsize, &attrs);
-	SYS_printf("Out handle from strm_create, %x\n", s->out_handle);
 	s->out_size = strm_def->bufsize;
 
 	s->in_buf = (void *)STRM_allocateBuffer(s->in_handle, s->in_size);
 	s->out_buf = (void *)STRM_allocateBuffer(s->out_handle,s->out_size);
-	SYS_printf("And the two buffers we allocate, %x %x\n",
-					s->in_buf, s->out_buf);
 
 	if (s->in_buf == NULL || s->out_buf == NULL)
 		return RMS_EOUTOFMEMORY;
@@ -95,7 +88,6 @@ execute(NODE_EnvPtr node)
 	Uns streams, msgs; /* Uns? Sounds like a war crime to me */
 
 	s = node->moreEnv;
-	SYS_printf("In execute, state ptr %x\n", s);
 	/* "Prime" input stream with buffer (as said by strm example) */
 	STRM_issue(s->in_handle, s->in_buf, s->in_size, s->in_size, 0);
 
