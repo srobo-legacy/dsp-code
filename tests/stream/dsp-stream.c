@@ -15,6 +15,7 @@
 #include <sr_dcd.h>
 
 void *MEM_valloc(int seg_id, int size, int align);
+void SYS_printf(const char *fmt, ...);
 
 struct state {
 	STRM_Handle in_handle;
