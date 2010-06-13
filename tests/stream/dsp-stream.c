@@ -22,8 +22,8 @@ struct state {
 	unsigned int in_size;
 	STRM_Handle out_handle;
 	unsigned int out_size;
-	void *in_buf;
-	void *out_buf;
+	uint8_t *in_buf;
+	uint8_t *out_buf;
 };
 
 void
@@ -86,6 +86,7 @@ execute(NODE_EnvPtr node)
 	uint8_t *in_buf;
 	uint32_t context;
 	Uns streams, msgs; /* Uns? Sounds like a war crime to me */
+	int i;
 
 	s = node->moreEnv;
 	/* "Prime" input stream with buffer (as said by strm example) */
@@ -100,6 +101,12 @@ execute(NODE_EnvPtr node)
 
 	if (in_buf == NULL)
 		panic();
+
+	for (i = 0; i < 1024; i++) {
+		s->out_buf[i] = 1;
+	}
+
+	STRM_issue(s->out_handle, s->out_buf, 1024, 1024, 0);
 
 	return 0;
 }
