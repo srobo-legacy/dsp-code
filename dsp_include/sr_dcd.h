@@ -18,12 +18,12 @@
 
 /* Generate dcd_register section - this contains one or more comma seperated (?)
  * guids to be found and registered by dynreg */
-static const char __attribute__((section(".dcd_register"))) dcd_register[] =
+static const char __attribute__((section(".dcd_register"))) sr_dcd_register[] =
         SR_NODE_GUID_STRING ":0";
 
 /* deathstring: this comma seperated list of values is fed to the bridgedriver,
  * which extracts various pieces of information from it, see below */
-static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
+static const char __attribute__((section("." SR_NODE_GUID_STRING))) sr_death[] =
         "1024," SR_NODE_GUID_STRING ",nodename,"
 	"1,0,1024,512,128,3072,5,3,1000,100,10,1,1024,16,0,2,"
 	SR_NODE_INPUT_STREAMS ","
@@ -34,6 +34,11 @@ static const char __attribute__((section("." SR_NODE_GUID_STRING))) death[] =
 	SR_NODE_DELETE_FUNC
 	",0,32768,sr_test_node"	/* node name must not contain a space, hangs */
 	",1,ff3f3f3fH,ff3f3f3fH,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,stackSegName,";
+
+/* llvm-gcc helpfully optimises the above out if there isn't a reference
+ * in .text or data - so ensure a reference. */
+const void *sr_dcd_ptr = sr_dcd_register;
+const void *sr_death_ptr = sr_death;
 
 /* Data is supposed to contain the following, names from a TI script:
  * 	1024,`guid`,`nodeTypeVal`,`bCacheVal`,
