@@ -18,6 +18,9 @@ TESTS = ${OBJS:.doff=.xml}
 .c.o:
 	$(CC) $< -o $@ $(CFLAGS)
 
+.c.s:
+	$(CC) $< -S -o $@ $(CFLAGS)
+
 .s.o:
 	$(CC) $< -o $@ $(CFLAGS)
 
