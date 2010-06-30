@@ -17,3 +17,8 @@ dsp-stream.doff: dsp-stream.o
 
 mpu-stream: mpu-stream.c
 	$(CC) mpu-stream.c -o $@ -I../../mpu_include -L../../mpu_lib -lbridge
+
+clean:
+	-rm dsp-stream.bc dsp-stream.s dsp-stream.o dsp-stream.doff
+
+.PHONY: clean
