@@ -16,6 +16,10 @@
 #define SR_NODE_OUTPUT_STREAMS "0"
 #endif
 
+#define SR_STATIC_DATA_SZ "1024"
+#define SR_GLOBAL_DATA_SZ "512"
+#define SR_PROG_MEM_SZ "128"
+
 /* Generate dcd_register section - this contains one or more comma seperated (?)
  * guids to be found and registered by dynreg */
 static const char __attribute__((section(".dcd_register"))) sr_dcd_register[] =
@@ -25,7 +29,8 @@ static const char __attribute__((section(".dcd_register"))) sr_dcd_register[] =
  * which extracts various pieces of information from it, see below */
 static const char __attribute__((section("." SR_NODE_GUID_STRING))) sr_death[] =
         "1024," SR_NODE_GUID_STRING ",nodename,"
-	"1,0,1024,512,128,3072,5,3,1000,100,10,1,1024,16,0,2,"
+	"1,0," SR_STATIC_DATA_SZ "," SR_GLOBAL_DATA_SZ "," SR_PROG_MEM_SZ
+	",3072,5,3,1000,100,10,1,1024,16,0,2,"
 	SR_NODE_INPUT_STREAMS ","
 	SR_NODE_OUTPUT_STREAMS ","
 	"7d0H," /* timeout */
