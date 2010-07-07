@@ -6,7 +6,7 @@
 /* Some utility functions to allow direct hardware access from C */
 
 /* Fetch pointer to interrupt service table */
-uint32_t getistp();
+void *getistp();
 
 /* Fetch interrupt enable register */
 uint32_t getier();
