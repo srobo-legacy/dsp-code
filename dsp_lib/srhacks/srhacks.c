@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "srhacks.h"
+#include <srhacks.h>
 
 void
 install_isr(void (*isr)(), int idx)
