@@ -33,6 +33,12 @@ install_isr(void (*isr)(), int idx)
 	our_isr[3] |= low_addr;
 	our_isr[4] |= high_addr;
 
+	/* Finally, there's a value pushed onto the stack indicating which
+	 * interrupt caused the ISR to be invoked - update this to which intr
+	 * we're coming from. */
+	our_isr[1] &= ~(0xFFFF << 7);
+	our_isr[1] |= idx << 7;
+
 	/* And that's the ISR installed. Now unmask interrupt */
 	setier(getier() | (1 << idx));
 	return;
