@@ -47,18 +47,18 @@ install_isr(void (*isr)(), int idx)
 /* "Public" routines for installing our custom exception and intr handler
  * over the dspbridge version */
 void
-srhack_install_sr_excp_isr()
+srhacks_install_sr_excp_isr()
 {
 
-	install_isr(srhack_isr, 1); /* Intr#1 -> NMI, exception interrupt */
+	install_isr(srhacks_isr, 1); /* Intr#1 -> NMI, exception interrupt */
 	return;
 }
 
 void
-srhack_install_sr_gpt8_isr()
+srhacks_install_sr_gpt8_isr()
 {
 
-	install_isr(srhack_isr, 12);
+	install_isr(srhacks_isr, 12);
 	/* FIXME: also route gpt itr to #12, and unmask that event */
 	return;
 }
