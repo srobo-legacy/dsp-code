@@ -9,7 +9,7 @@ getistp:
 		mv		B4,	A4
 		; Bits 9->5 can be the pending intr number, mask out
 		mvkl		0xFC00,	A0
-		mvkh		0xFFFF,	A0
+		mvkh		0xFFFFFFFF,	A0
 		and		A4,	A0,	A4
 		bnop	.S2	B3,	5
 
