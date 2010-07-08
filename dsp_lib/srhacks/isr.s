@@ -9,12 +9,13 @@
         .type   srhacks_isr,@function
 srhacks_isr:
 ; State at this point in execution is that B0 gets stored to stack, used to push
-; the #intr ID to B15+4, and then gets restored. Which I swear should break
-; compatibility because we trash the tip of the users stack, unless there's more
-; going on that I can see. Anyway, we have all registers to dump right now.
+; the #intr ID to B15, and then gets restored. So we enter with state intact and
+; the #intr id on the stack.
 
+; point SP past isr id.
+		sub		B15,	4,	B15
+; Save SP immediately for easy calculation of what it was later.
 		stw		B15,	*B15--
-; Save SP immediately for easy calculate of what it was later.
 		stw		B0,	*B15--
 		stw		B1,	*B15--
 		stw		B2,	*B15--
