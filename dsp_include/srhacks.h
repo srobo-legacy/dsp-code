@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 
-void srhacks_isr();
 void srhacks_install_sr_excp_isr();
 void srhacks_install_sr_gpt8_isr();
 
