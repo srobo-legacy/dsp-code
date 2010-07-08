@@ -1,21 +1,34 @@
 #include <string.h>
 
 #include <srhacks.h>
+#include "internal.h"
+
+static const uint32_t isr_template[8] =
+{ 0x003c20f6, 0x0034a35a, 0x003c02f6, 0x0052502a, 0x001000ea, 0x00000362,
+  0x003c02e6, 0x00006000 };
 
 void
 install_isr(void (*isr)(), int idx)
 {
-	uint32_t *istp, *mbox_isr, *our_isr;
+	uint32_t *istp, *our_isr;
 	uint32_t high_addr, low_addr;
+	int i;
 
 	istp = getistp();
-	mbox_isr = istp + 0x1A0;	/* Pointer to mailbox intr vector */
-	our_isr = istp + (idx * 0x20);	/* Pointer to vector we'll be writing */
+	our_isr = istp + (idx * 8);	/* Pointer to vector we'll be writing */
 
-	/* Now then - we could either formulate our own 8-insn handler to bounce
-	 * control to an actual ISR, or we could just use the one dspbridge has
-	 * already installed and adjust the address it jmps to. */
-	memcpy(our_isr, mbox_isr, 0x20);
+	/* Generate an ISR - the hex for this corresponds to the following asm
+	 * stw     .D2T2  B0,            *-B15(4)
+	 * mvk     .L2    0xD,           B0
+	 * stw     .D2T2  B0,            *B15
+	 * mvk     .S2    0xFFFFA4A0,    B0
+	 * mvkh    .S2    0x20010000,    B0
+	 * b       .S2    B0
+	 * ldw     .D2T2  *B15,          B0
+	 * nop            0x3
+	 */
+	for (i = 0; i < 8; i++)
+		our_isr[i] = isr_template[i];
 
 	/* Split into the two parts of the load */
 	high_addr = ((uint32_t)isr) >> 16;
@@ -36,8 +49,8 @@ install_isr(void (*isr)(), int idx)
 	/* Finally, there's a value pushed onto the stack indicating which
 	 * interrupt caused the ISR to be invoked - update this to which intr
 	 * we're coming from. */
-	our_isr[1] &= ~(0xFFFF << 7);
-	our_isr[1] |= idx << 7;
+	our_isr[1] &= ~(0x1F << 18);
+	our_isr[1] |= idx << 18;
 
 	/* And that's the ISR installed. Now unmask interrupt */
 	setier(getier() | (1 << idx));
