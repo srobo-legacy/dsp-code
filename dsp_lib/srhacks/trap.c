@@ -19,6 +19,40 @@ sr_trap(struct trap_frame *frame)
 	uint32_t *beards;
 	int i;
 
+	/* I've never had a legitimate reason to use this, ever, so I'll be
+	 * damned if I miss this one out -
+	 *
+	 *                                             ___________
+	 *                                           /             \
+	 *                                           | It’s a trap! |
+	 *                      _,,,--~~~~~~~--,_     \  ___________/
+	 *                    ,-‘                ‘-,   \/
+	 *                 ,-‘                   o : ‘-,
+	 *               ,-‘                        :O ‘-,
+	 *             ,-‘                              ’;
+	 *           ,-‘ //               -,              \
+	 *          /,‘,’                  ‘-,            |
+	 *         /,’,‘               _,-~~,_’-,         |
+	 *       _/,’ /           _,-‘/ ,-‘;’’’~-,       /
+	 *    ,-‘/     ,-‘    ,--‘’| / ,-‘-‘__’’’ \    ,-
+	 *     \ /   _,-‘--,,  \  \ |/ /,-‘x###  \ \    /
+	 *     \//-- \ #\   \  \  \| |   (O##º  / /  ‘’
+	 *     /’____ \ #\   \  \  \ \ \  ‘-,_,-‘--,-'
+	 *      )    ’’-,--,, ¯\ \     -- _ -¯ -- , - -
+	 *     )      ,    ’’~~~’ \        ’’¯   ,-‘  /\
+	 *     \ //|\\|| //      ’-,           ,-  ,-‘ \\
+	 *      \\|\\\|/// _--   | )        ,-‘’,-‘     \\
+	 *     /¯|\|\|/\   --- \/  |      ,-’ ,-‘        ‘’-,,_
+	 *    |   / -(,    ’’’~,,,’’    ,-‘ ,-‘           ,-‘’’\\
+	 *   -   |  ‘’)   ¯’’~      ,--’ ,-’            ,-  ¯   ’-,_
+	 *  /    ’-,  |    _,,-‘’’’¯ ,--‘              /           ’’-,
+	 * /     -   ¯’’’¯    _,,-~’’                 |
+	 *        ¯’’~~~~~’’’                         |
+	 *
+	 * Credit for original ascii, supernaturalhigh
+	 */
+
+
 	/* So, we can arrive here in the case of two interrupts: GPT8 and if
 	 * an exception occurs. We can work this out from what ID they pushed
 	 * on the stack in the short service routine */
