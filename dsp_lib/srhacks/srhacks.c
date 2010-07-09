@@ -73,5 +73,9 @@ srhacks_install_sr_gpt8_isr()
 
 	install_isr(srhacks_isr, 12);
 	/* FIXME: also route gpt itr to #12, and unmask that event */
+	/* UPDATE: I've tried enabling intr 12 and tying it to trigger on
+	 * event 54, the GPTIMER intr, however nothing seems to happen. I've
+	 * also tried using the event combining registers and intrs and nothing
+	 * seems to happen there either. Uuurgh. */
 	return;
 }
