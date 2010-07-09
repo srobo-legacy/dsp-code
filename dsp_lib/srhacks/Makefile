@@ -11,7 +11,7 @@ srhacks.a: srhacks.o
 	cp srhacks.a ..
 
 srhacks.o: srhacks.c trap.o asm_utils.o isr.o
-	$(CC) $(CFLAGS) srhacks.c trap.o asm_utils.o isr.o -o srhacks.o
+	$(CC) $(CFLAGS) srhacks.c trap.o asm_utils.o isr.o -o srhacks.o -Wl,-r
 
 trap.o: trap.c
 	$(CC) $(CFLAGS) trap.c -c -o trap.o
