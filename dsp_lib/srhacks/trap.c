@@ -16,7 +16,6 @@ void __attribute__((noreturn))
 sr_trap(struct trap_frame *frame)
 {
 	struct dspbridge_fault *fault;
-	uint32_t *beards;
 	int i;
 
 	/* I've never had a legitimate reason to use this, ever, so I'll be
