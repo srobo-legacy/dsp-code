@@ -52,6 +52,19 @@ sr_trap(struct trap_frame *frame)
 	fault->ier = frame->ctrl_regs[4];
 	fault->csr = frame->ctrl_regs[1];
 
+	/* Now write out a few other bits of information bridgedriver wants */
+	fault->exc_type = (frame->intr == 1) ? 1 : 0;
+	fault->fault_ctx = 0;	/* We don't know what this is anyway */
+	fault->task_handle = 0;	/* Don't know this either */
+	fault->sp = frame->orig_sp + 4;
+
+	/* Presumably these bits of info could be pulled out of the dspbios
+	 * task state, but I've no wish to interface with that */
+	fault->stack_top = 0;
+	fault->stack_bottom = 0;
+	fault->stack_sz = 0;
+	fault->stack_size_used = 0;
+
 	/* Size of fault data depends on how much stack we write out - for now
 	 * we won't bother writing any stack */
 	fault->sz = sizeof(*fault) - 4;
