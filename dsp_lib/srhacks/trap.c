@@ -12,7 +12,7 @@
 
 void SYS_printf(const char *format, ...);
 
-void
+void __attribute__((noreturn))
 sr_trap(struct trap_frame *frame)
 {
 	struct dspbridge_fault *fault;
