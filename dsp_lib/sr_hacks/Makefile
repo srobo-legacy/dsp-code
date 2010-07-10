@@ -8,7 +8,6 @@ CFLAGS = -I../../dsp_include -I../../mpu_include
 
 sr_hacks.a: sr_hacks.o
 	$(AR) -c -r sr_hacks.a sr_hacks.o
-	cp sr_hacks.a ..
 
 sr_hacks.o: sr_hacks.c trap.o asm_utils.o isr.o
 	$(CC) $(CFLAGS) sr_hacks.c trap.o asm_utils.o isr.o -o sr_hacks.o -Wl,-r
