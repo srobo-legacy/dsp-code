@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include <srhacks.h>
+#include <sr_hacks.h>
 #include "internal.h"
 
 static const uint32_t isr_template[8] =
@@ -60,18 +60,18 @@ install_isr(void (*isr)(), int idx)
 /* "Public" routines for installing our custom exception and intr handler
  * over the dspbridge version */
 void
-srhacks_install_sr_excp_isr()
+sr_hacks_install_sr_excp_isr()
 {
 
-	install_isr(srhacks_isr, 1); /* Intr#1 -> NMI, exception interrupt */
+	install_isr(sr_hacks_isr, 1); /* Intr#1 -> NMI, exception interrupt */
 	return;
 }
 
 void
-srhacks_install_sr_gpt8_isr()
+sr_hacks_install_sr_gpt8_isr()
 {
 
-	install_isr(srhacks_isr, 12);
+	install_isr(sr_hacks_isr, 12);
 	/* FIXME: also route gpt itr to #12, and unmask that event */
 	/* UPDATE: I've tried enabling intr 12 and tying it to trigger on
 	 * event 54, the GPTIMER intr, however nothing seems to happen. I've

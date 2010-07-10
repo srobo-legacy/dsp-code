@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-void srhacks_install_sr_excp_isr();
-void srhacks_install_sr_gpt8_isr();
+void sr_hacks_install_sr_excp_isr();
+void sr_hacks_install_sr_gpt8_isr();
 
 /* Some utility functions to allow direct hardware access from C */
 

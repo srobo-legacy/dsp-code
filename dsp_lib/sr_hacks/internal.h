@@ -44,4 +44,5 @@ struct dspbridge_fault {
 };
 
 void sr_trap(struct trap_frame *frame);
-void srhacks_isr();
+void sr_hacks_isr();
+

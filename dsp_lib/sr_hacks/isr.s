@@ -4,10 +4,10 @@
 ; from stack overflow at this point.
 
         .text
-        .globl  srhacks_isr
+        .globl  sr_hacks_isr
         .align  5
-        .type   srhacks_isr,@function
-srhacks_isr:
+        .type   sr_hacks_isr,@function
+sr_hacks_isr:
 ; State at this point in execution is that B0 gets stored to stack, used to push
 ; the #intr ID to B15, and then gets restored. So we enter with state intact and
 ; the #intr id on the stack.

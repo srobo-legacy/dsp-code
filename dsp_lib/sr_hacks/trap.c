@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 #include <string.h>
-#include <srhacks.h>
+#include <sr_hacks.h>
 #include "internal.h"
 
 void SYS_printf(const char *format, ...);
