@@ -46,3 +46,12 @@ struct dspbridge_fault {
 void sr_trap(struct trap_frame *frame);
 void sr_hacks_isr();
 
+/* Fetch pointer to interrupt service table */
+void *getistp();
+
+/* Fetch interrupt enable register */
+uint32_t getier();
+
+/* Set interrupt enable register */
+void setier(uint32_t ie_mask);
+

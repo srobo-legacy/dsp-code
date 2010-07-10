@@ -6,16 +6,7 @@
 void sr_hacks_install_sr_excp_isr();
 void sr_hacks_install_sr_gpt8_isr();
 
-/* Some utility functions to allow direct hardware access from C */
-
-/* Fetch pointer to interrupt service table */
-void *getistp();
-
-/* Fetch interrupt enable register */
-uint32_t getier();
-
-/* Set interrupt enable register */
-void setier(uint32_t ie_mask);
+/* Help user to beat registers directly from their code */
 
 /* Write a 32 bit word to an address */
 void write_reg_32(uint32_t address, uint32_t value);
