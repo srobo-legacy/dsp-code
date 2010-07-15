@@ -1,6 +1,13 @@
 ; Some asm utility functions - see asm_utils.h for a short description.
 
         .text
+        .globl  getsp
+        .align  5
+        .type   getsp,@function
+getsp:
+		mv		B15,	A4
+		bnop		B3,	5
+
         .globl  getistp
         .align  5
         .type   getistp,@function
