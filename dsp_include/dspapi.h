@@ -24,6 +24,7 @@
  * and that might occur in existing DSP code. On the whole, C99 fixed width
  * types are approximately one bajillion times nicer than using these */
 
+typedef bool Bool;
 typedef void Void;
 typedef char SmInt;
 typedef short MdInt;
@@ -109,6 +110,14 @@ typedef struct BCACHE_Size {
 	unsigned int l2size;
 } BCACHE_Size;
 
+typedef struct MEM_Stat {
+	unsigned int	size;
+	unsigned int	used;
+	unsigned int	length;
+	unsigned int	space;
+	void 		*base;
+} MEM_Stat;
+
 #define RMS_EXIT		0x80000000
 #define RMS_EXITACK		0x40000000
 #define RMS_USER		0
@@ -118,6 +127,7 @@ typedef struct BCACHE_Size {
 #define NODE_TOGPP		0
 
 #define DBC_ensure(x)		/* Clobber assertions */
+#define DBC_require(x)
 
 /* Function prototypes */
 
@@ -128,6 +138,7 @@ void SYS_printf(const char *fmt, ...);
 void *MEM_alloc(int seg, int size, int align);
 void *MEM_valloc(int seg, int size, int align, char val);
 bool MEM_free(int seg, void *addr, int size);
+bool MEM_stat(int id, MEM_Stat *buf);
 
 #define MEM_calloc(seg, sz, align) MEM_valloc(seg, sz, align, 0)
 #define MEM_ILLEGAL NULL
