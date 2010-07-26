@@ -6,16 +6,9 @@
 #define SR_NODE_INPUT_STREAMS "1"
 #define SR_NODE_OUTPUT_STREAMS "1"
 
-#include <std.h>
-#include <stdlib.h>
-#include <rmsdefs.h>
-#include <rms_sh.h>
-#include <node.h>
-
 #include <sr_dcd.h>
 
-void *MEM_valloc(int seg_id, int size, int align);
-void SYS_printf(const char *fmt, ...);
+#include <dspapi.h>
 
 struct state {
 	STRM_Handle in_handle;
@@ -45,7 +38,7 @@ create(int arg_len, char *arg_str, int num_in_streams,
 	struct state *s;
 	RMS_StrmDef *strm_def;
 
-	s = MEM_valloc(0, sizeof(struct state), 0);
+	s = MEM_valloc(0, sizeof(struct state), 0, 0);
 	node->moreEnv = s;
 	if (s == NULL)
 		return RMS_EOUTOFMEMORY;
