@@ -6,10 +6,6 @@
 
 #include <dbapi.h>
 
-#include "visfunc.h"
-#include "dsp_api.h"
-#include "dsp_comms.h"
-
 static bool dsp_open = false;
 static DSP_HPROCESSOR dsp_handle = NULL;
 static DSP_HNODE node;
@@ -110,23 +106,20 @@ dereg_node()
 	DSPManager_UnregisterObject(&uuid, DSP_DCDLIBRARYTYPE);
 }
 
-int
+DSP_HNODE
 open_dsp_and_node()
 {
 	DBAPI status;
-	int aligned_size, blobs_sz;
-
-	blobs_sz = MAX_BLOBS * sizeof(struct blob_position);
 
 	if (check_dsp_open()) {
 		fprintf(stderr, "Couldn't open DSP\n");
-		return 1;
+		return NULL;
 	}
 
 	/* Register and allocate the dsp node, but don't create */
 	if (register_and_alloc_node()) {
 		fprintf(stderr, "Couldn't allocate dsp node\n");
-		return 1;
+		return NULL;
 	}
 
 	/* Hmkay, now it should be possible to create and execute node */
@@ -142,12 +135,12 @@ open_dsp_and_node()
 		goto fail;
 	}
 
-	return 0;
+	return node;
 
 	fail:
 	DSPNode_Delete(node);
 
-	return 1;
+	return NULL;
 }
 
 void

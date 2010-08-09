@@ -6,10 +6,13 @@
 
 #include <dbapi.h>
 
+DSP_HNODE open_dsp_and_node();
+void wind_up_dsp();
+
 int
 main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 {
-	DSP_MSG msg;
+	struct DSP_MSG msg;
 	DSP_HNODE node;
 	DBAPI status;
 	int i, num;
