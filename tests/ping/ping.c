@@ -52,6 +52,8 @@ main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 			fprintf(stderr, "Received reply to msg %d, however  "
 				"response is incorrect (%X %X %X)\n",
 				msg.dwCmd, msg.dwArg1, msg.dwArg2);
+		} else {
+			printf("Successfully received ping %d\n", i);
 		}
 	}
 
