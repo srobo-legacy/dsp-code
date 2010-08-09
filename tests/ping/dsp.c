@@ -22,7 +22,7 @@ create(int arg_len, char *arg_str, int num_in_streams,
 int
 execute(NODE_EnvPtr node)
 {
-	RMS_DSPMSG msg;
+	RMS_DSPMSG msg, msg2;
 	int msgs;
 
 	while (1) {
@@ -36,7 +36,15 @@ execute(NODE_EnvPtr node)
 		if (msg.cmd == RMS_EXIT)
 			break;
 
-		/* XXX - do some stuff */
+		/* Copy message into second struct, flipping the args */
+		msg2.cmd = msg.cmd;
+		msg2.arg1 = msg.arg2;
+		msg2.arg2 = msg.arg1;
+
+		/* Send it back */
+		NODE_putMsg(node, NODE_TOGPP, &msg2, NODE_FOREVER);
+
+		/* And continue on our merry dance */
 	}
 
 	return 0;
