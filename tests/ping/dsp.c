@@ -27,8 +27,10 @@ execute(NODE_EnvPtr node)
 
 	while (1) {
 		NODE_wait(node, NULL, 0, 10000, &msgs);
-		if (msgs == 0)
+		if (msgs == 0) {
+			SYS_printf("No messages after 10s?\n");
 			continue;
+		}
 
 		NODE_getMsg(node, &msg, NODE_FOREVER);
 		if (msg.cmd == RMS_EXIT)
