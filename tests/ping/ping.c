@@ -39,6 +39,9 @@ main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 			continue;
 		}
 
+		/* Wipe message */
+		memset(&msg, 0, sizeof(msg));
+
 		/* Wait for the reply, up to 1 second again */
 		status = DSPNode_GetMessage(node, &msg, 1000);
 		if (DSP_FAILED(status)) {
