@@ -56,14 +56,15 @@ register_and_alloc_node()
 	DSPManager_UnregisterObject(&uuid, DSP_DCDNODETYPE);
 	DSPManager_UnregisterObject(&uuid, DSP_DCDLIBRARYTYPE);
 
-	status = DSPManager_RegisterObject(&uuid, DSP_DCDNODETYPE, "dsp.doff");
+	status = DSPManager_RegisterObject(&uuid, DSP_DCDNODETYPE, "ping.doff");
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't register dsp code with bridgedriver, "
 				"%X\n", (int)status);
 		return 1;
 	}
 
-	status = DSPManager_RegisterObject(&uuid,DSP_DCDLIBRARYTYPE,"dsp.doff");
+	status = DSPManager_RegisterObject(&uuid,DSP_DCDLIBRARYTYPE,
+							"ping.doff");
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't register dsp code with bridgedriver, "
 				"%X\n", (int)status);
