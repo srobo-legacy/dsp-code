@@ -22,11 +22,20 @@ create(int arg_len, char *arg_str, int num_in_streams,
 int
 execute(NODE_EnvPtr node)
 {
+	RMS_DSPMSG msg;
+	int msgs;
 
-	streams = NODE_wait(node, &s->in_handle, 1, 10000, &msgs);
-	SYS_printf("sys streams %d, msgs %d\n", streams, msgs);
-	if (streams == 0)
-		panic();
+	while (1) {
+		NODE_wait(node, NULL, 0, 10000, &msgs);
+		if (msgs == 0)
+			continue;
+
+		NODE_getMsg(node, &msg, NODE_FOREVER);
+		if (msg.cmd == RMS_EXIT)
+			break;
+
+		/* XXX - do some stuff */
+	}
 
 	return 0;
 }
