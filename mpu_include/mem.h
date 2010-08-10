@@ -296,7 +296,7 @@ extern "C" {
  *  Ensures:
  *      MEM initialized.
  */
-	extern BOOL MEM_Init();
+	extern bool MEM_Init();
 
 /*
  *  ======== MEM_IsValidHandle ========
@@ -336,13 +336,13 @@ extern "C" {
  *      If valid linear address is returned, be sure to call
  *      MEM_UnmapLinearAddress().
  */
-#ifndef LINUX
+#ifndef __linux__
 	extern PVOID MEM_LinearAddress(IN PVOID pPhyAddr, IN ULONG cBytes);
 #else
 #define MEM_LinearAddress(pPhyAddr, cBytes) pPhyAddr
 #endif
 
-#ifndef LINUX
+#ifndef __linux__
 /*
  *  ======== MEM_PageLock ========
  *  Purpose:
@@ -374,7 +374,7 @@ extern "C" {
  *      pBuffer:    Pointer to locked memory (as returned by MEM_PageLock()).
  *      cSize:      Size in bytes of the buffer.
  *  Returns:
- *      Returns DSP_SOK if unlock successful; else, returns DSP_EFAIL;
+ *      Returns 0 if unlock successful; else, returns -EPERM;
  *  Requires:
  *      - MEM initialized.
  *      - Valid pBuffer.
@@ -383,7 +383,7 @@ extern "C" {
  *      (MEM_PageLock() increments the lock count, and MEM_PageUnlock
  *      decrements the count).
  */
-	extern DSP_STATUS MEM_PageUnlock(IN PVOID pBuffer, IN ULONG cSize);
+	extern int MEM_PageUnlock(IN PVOID pBuffer, IN ULONG cSize);
 #endif
 
 /*
@@ -399,7 +399,7 @@ extern "C" {
  *  Ensures:
  *      - pBaseAddr no longer points to a valid linear address.
  */
-#ifndef LINUX
+#ifndef __linux__
 	extern VOID MEM_UnmapLinearAddress(IN PVOID pBaseAddr);
 #else
 #define MEM_UnmapLinearAddress(pBaseAddr)

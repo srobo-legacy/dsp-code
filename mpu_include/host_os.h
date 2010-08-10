@@ -58,14 +58,10 @@
 #include <linux/platform_device.h>
 //#include <asm/arch/bus.h>
 
-
-#if defined (OMAP_2430) || defined (OMAP_3430)
+ 
 #include <asm/arch/clock.h>
-#ifdef OMAP_3430
 #include <linux/clk.h>
 //  #include <asm-arm/hardware/clock.h>
-#endif
-#endif
 
 #include <linux/pagemap.h>
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,5,0)
@@ -85,10 +81,8 @@
 
 
 /* TODO -- Remove, once BP defines them */
-#ifdef OMAP_3430
 #define INT_MAIL_MPU_IRQ        26
 #define INT_DSP_MMU_IRQ        28
-#endif
 
 
 #else
@@ -103,6 +97,7 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
+#include <stdbool.h>
 #ifdef DEBUG_BRIDGE_PERF
 #include <sys/time.h>
 #endif

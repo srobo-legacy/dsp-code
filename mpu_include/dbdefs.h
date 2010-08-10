@@ -32,10 +32,10 @@
  *!                 Removed unused DSP_ENUMLASTNODE define.
  *! 13-Feb-2002 jeh Added uSysStackSize to DSP_NDBPROPS.
  *! 23-Jan-2002 ag  Added #define DSP_SHMSEG0.
- *! 12-Dec-2001 ag  Added DSP_ESTRMMODE error code.
- *! 04-Dec-2001 jeh Added DSP_ENOTCONNECTED error code.
+ *! 12-Dec-2001 ag  Added -EPERM error code.
+ *! 04-Dec-2001 jeh Added -ENOTCONN error code.
  *! 10-Dec-2001 kc: Modified macros and definitions to disable DSP_POSTMESSAGE.
- *! 01-Nov-2001 jeh Added DSP_EOVERLAYMEMORY.
+ *! 01-Nov-2001 jeh Added -ENXIO.
  *! 18-Oct-2001 ag  Added DSP_STRMMODE type.
  *!                 Added DSP_ENOTSHAREDMEM.
  *! 21-Sep-2001 ag  Added additional error codes.
@@ -44,7 +44,7 @@
  *!                 from DSP_NODEINFO.
  *! 02-Apr-2001 sg  Added missing error codes, rearranged codes, switched to
  *!             hex offsets, renamed some codes to match API spec.
- *! 16-Jan-2001 jeh Added DSP_ESYMBOL, DSP_EUUID.
+ *! 16-Jan-2001 jeh Added -ESPIPE, -ENOKEY.
  *! 13-Feb-2001 kc: DSP/BIOS Bridge name updates.
  *! 05-Dec-2000 ag: Added DSP_RMSxxx user available message command codes.
  *! 09-Nov-2000 rr: Added DSP_PROCEESORRESTART define; Removed DSP_PBUFFER.
@@ -56,7 +56,7 @@
  *!                 these codes within the RM module.
  *! 27-Sep-2000 jeh Added segid, alignment, uNumBufs to DSP_STREAMATTRIN.
  *! 29-Aug-2000 jeh Added DSP_NODETYPE enum, changed DSP_EALREADYATTACHED to
- *!                 DSP_EALREADYCONNECTED. Changed scStreamConnection[1]
+ *!                 -EISCONN. Changed scStreamConnection[1]
  *!                 to scStreamConnection[16] in DSP_NODEINFO structure.
  *!                 Added DSP_NOTIFICATION, DSP_STRMATTR. PSTRING changed
  *!                 back to TCHAR * and moved to dbtype.h.
@@ -85,7 +85,7 @@ extern "C" {
 #define PG_ALIGN_HIGH(addr, pg_size) (((addr)+(pg_size)-1) & PG_MASK(pg_size))
 
 /* API return value and calling convention */
-#define DBAPI                       DSP_STATUS CDECL
+#define DBAPI                       int CDECL
 
 /* Infinite time value for the uTimeout parameter to DSPStream_Select() */
 #define DSP_FOREVER                 (-1)
@@ -105,6 +105,7 @@ extern "C" {
 /* DSP exception events (DSP/BIOS and DSP MMU fault) */
 #define DSP_MMUFAULT                0x00000010
 #define DSP_SYSERROR                0x00000020
+#define DSP_PWRERROR		    0x00000080
 
 /* IVA exception events (IVA MMU fault) */
 #define IVA_MMUFAULT                0x00000040
@@ -139,11 +140,7 @@ extern "C" {
 #define DSP_UNIT    0
 #define IVA_UNIT    1
 
-#if ! defined (OMAP_2430) && ! defined (OMAP_3430)
-#define DSPWORD       SHORT
-#else
 #define DSPWORD       BYTE
-#endif
 #define DSPWORDSIZE     sizeof(DSPWORD)
 
 /* Success & Failure macros  */
@@ -159,13 +156,9 @@ extern "C" {
 /* Bridge Code Version */
 #define BRIDGE_VERSION_CODE         333
 
-#if defined (OMAP_2430) || defined (OMAP_3430)
 #define    MAX_PROFILES     16
-#endif
 
 /* Types defined for 'Bridge API */
-	typedef DWORD DSP_STATUS;	/* API return code type         */
-
 	typedef HANDLE DSP_HNODE;	/* Handle to a DSP Node object  */
 	typedef HANDLE DSP_HPROCESSOR;	/* Handle to a Processor object */
 	typedef HANDLE DSP_HSTREAM;	/* Handle to a Stream object    */
@@ -186,7 +179,8 @@ extern "C" {
                                     DSP_STREAMDONE | \
                                     DSP_STREAMIOCOMPLETION | \
                                     DSP_MMUFAULT | \
-                                    DSP_SYSERROR)) && \
+                                    DSP_SYSERROR | \
+	                            DSP_PWRERROR)) && \
                                 !((x) & ~(DSP_PROCESSORSTATECHANGE | \
                                     DSP_PROCESSORATTACH | \
                                     DSP_PROCESSORDETACH | \
@@ -195,7 +189,8 @@ extern "C" {
                                     DSP_STREAMDONE | \
                                     DSP_STREAMIOCOMPLETION | \
                                     DSP_MMUFAULT | \
-                                    DSP_SYSERROR))))
+				    DSP_SYSERROR| \
+				    DSP_PWRERROR))))
 
 #define IsValidNodeEvent(x)    (((x) == 0) || (((x) & (DSP_NODESTATECHANGE | \
                                 DSP_NODEMESSAGEREADY)) && \
@@ -234,7 +229,8 @@ extern "C" {
 	typedef enum {
 		PROC_STOPPED,
 		PROC_LOADED,
-		PROC_RUNNING
+		PROC_RUNNING,
+		PROC_ERROR
 	} DSP_PROCSTATE;
 
 /* Node types */
@@ -380,12 +376,10 @@ extern "C" {
 	} ;
 	/*DSP_STREAMCONNECT, *DSP_HSTREAMCONNECT;*/
 
-#if defined (OMAP_2430) || defined (OMAP_3430)
 	struct DSP_NODEPROFS {
 		UINT ulHeapSize;
 	} ;
 	/*DSP_NODEPROFS, *DSP_HNODEPROFS;*/
-#endif
 
 /* The DSP_NDBPROPS structure reports the attributes of a node */
 	struct DSP_NDBPROPS {
@@ -403,10 +397,9 @@ extern "C" {
 		UINT uNumInputStreams;
 		UINT uNumOutputStreams;
 		UINT uTimeout;
-#if defined (OMAP_2430) || defined (OMAP_3430)
 		UINT uCountProfiles;	/* Number of supported profiles */
-		struct DSP_NODEPROFS aProfiles[MAX_PROFILES];	/* Array of profiles */
-#endif
+		/* Array of profiles */
+		struct DSP_NODEPROFS aProfiles[MAX_PROFILES];
 		UINT uStackSegName; /* Stack Segment Name */
 	} ;
 	/*DSP_NDBPROPS, *DSP_HNDBPROPS;*/
@@ -416,12 +409,10 @@ extern "C" {
             DWORD cbStruct;
             INT iPriority;
             UINT uTimeout;
-#if defined (OMAP_2430) || defined (OMAP_3430)
             UINT    uProfileID;
 			/* Reserved, for Bridge Internal use only */
             UINT    uHeapSize;   
             PVOID   pGPPVirtAddr; /* Reserved, for Bridge Internal use only */
-#endif
         } ;
 	/*DSP_NODEATTRIN, *DSP_HNODEATTRIN;*/
 
@@ -595,10 +586,8 @@ bit 6 - MMU element size = 64bit (valid only for non mixed page entries)
 
 #define DSP_MAPVMALLOCADDR         0x00000080
 
-#if defined (OMAP_2430) || defined (OMAP_3430)
 #define GEM_CACHE_LINE_SIZE     128
 #define GEM_L1P_PREFETCH_SIZE   128
-#endif
 
 #ifdef __cplusplus
 }

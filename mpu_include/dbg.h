@@ -49,14 +49,14 @@ extern "C" {
 #include <dspapi.h>
 
 /* Levels of trace debug messages: */
-#ifndef LINUX			/* No DEBUGZONE in Linux, DBG mask == GT mask */
+#ifndef __linux__			/* No DEBUGZONE in Linux, DBG mask == GT mask */
 #define DBG_ENTER   (BYTE)(0x01 & DEBUGZONE(0))	/* Function entry point. */
 #define DBG_LEVEL1  (BYTE)(0x02 & DEBUGZONE(1))	/* Display debugging state/varibles */
 #define DBG_LEVEL2  (BYTE)(0x04 & DEBUGZONE(2))	/* Display debugging state/varibles */
 #define DBG_LEVEL3  (BYTE)(0x08 & DEBUGZONE(3))	/* Display debugging state/varibles */
 #define DBG_LEVEL4  (BYTE)(0x10 & DEBUGZONE(4))	/* Display debugging state/varibles */
 #define DBG_LEVEL5  (BYTE)(0x20 & DEBUGZONE(5))	/* Module Init, Exit */
-#define DBG_LEVEL6  (BYTE)(0x40 & DEBUGZONE(6))	/* Warn OSAL Failures */
+#define DBG_LEVEL6  (BYTE)(0x40 & DEBUGZONE(6))	/* Warn SERVICES Failures */
 #define DBG_LEVEL7  (BYTE)(0x80 & DEBUGZONE(7))	/* Warn Critical Errors */
 #else
 #define DBG_ENTER   (BYTE)(0x01)	/* Function entry point. */
@@ -65,7 +65,7 @@ extern "C" {
 #define DBG_LEVEL3  (BYTE)(0x08)	/* Display debugging state/varibles */
 #define DBG_LEVEL4  (BYTE)(0x10)	/* Display debugging state/varibles */
 #define DBG_LEVEL5  (BYTE)(0x20)	/* Module Init, Exit */
-#define DBG_LEVEL6  (BYTE)(0x40)	/* Warn OSAL Failures */
+#define DBG_LEVEL6  (BYTE)(0x40)	/* Warn SERVICES Failures */
 #define DBG_LEVEL7  (BYTE)(0x80)	/* Warn Critical Errors */
 #endif
 
@@ -95,9 +95,9 @@ extern "C" {
  *  Requires:
  *  Ensures:
  */
-	extern BOOL DBG_Init();
+	extern bool DBG_Init();
 
-#ifndef LINUX
+#ifndef __linux__
 /*
  *  ======== DBG_Printf ========
  *  Purpose:
@@ -106,14 +106,14 @@ extern "C" {
  *      pstrFormat: sprintf-style format string.
  *      ...:        Arguments for format string.
  *  Returns:
- *      DSP_SOK:    Success, or trace level masked.
- *      DSP_EFAIL:  On Error.
+ *      0:    Success, or trace level masked.
+ *      -EPERM:  On Error.
  *  Requires:
  *      DBG initialized.
  *  Ensures:
  */
-	extern DSP_STATUS DBG_Printf(IN PSTR pstrFormat, ...);
-#endif				// LINUX
+	extern int DBG_Printf(IN PSTR pstrFormat, ...);
+#endif				// __linux__
 
 /*
  *  ======== DBG_Trace ========
@@ -125,15 +125,15 @@ extern "C" {
  *      pstrFormat:     sprintf-style format string.
  *      ...:            Arguments for format string.
  *  Returns:
- *      DSP_SOK:        Success, or trace level masked.
- *      DSP_EFAIL:      On Error.
+ *      0:        Success, or trace level masked.
+ *      -EPERM:      On Error.
  *  Requires:
  *      DBG initialized.
  *  Ensures:
  *      Debug message is printed to debugger output window, if trace level
  *      is unmasked.
  */
-	extern DSP_STATUS DBG_Trace(IN BYTE bLevel, IN PSTR pstrFormat, ...);
+	extern int DBG_Trace(IN BYTE bLevel, IN PSTR pstrFormat, ...);
 #else
 
 #define DBG_Exit()

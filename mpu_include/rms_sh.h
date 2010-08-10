@@ -113,12 +113,10 @@ extern "C" {
 		RMS_WORD stackSize;	/* Task's stack size */
 		RMS_WORD sysstackSize;	/* Task's system stack size (55x) */
 		RMS_WORD stackSeg;	/* Memory segment for task's stack */
-#if defined (OMAP_2430) || defined (OMAP_3430)
 		RMS_WORD heapAddr;	/* base address of the node memory heap in
 					 * external memory (DSP virtual address) */
 		RMS_WORD heapSize;	/* size in MAUs of the node memory heap in
 					 * external memory */
-#endif
 		RMS_WORD misc;	/* Misc field.  Not used for 'normal'
 				 * task nodes; for xDAIS socket nodes
 				 * specifies the IALG_Fxn pointer. 

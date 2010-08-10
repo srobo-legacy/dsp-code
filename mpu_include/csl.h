@@ -63,6 +63,7 @@ extern "C" {
 #endif
 
 #include <dspapi.h>
+#include <host_os.h>
 
 #ifdef UNICODE
 /*
@@ -142,7 +143,7 @@ extern "C" {
  *  Ensures:
  *      A requirement for each of the other public CSL functions.
  */
-	extern BOOL CSL_Init();
+	extern bool CSL_Init();
 
 /*
  *  ======== CSL_NumToAscii ========

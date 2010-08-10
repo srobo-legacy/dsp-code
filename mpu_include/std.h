@@ -206,12 +206,14 @@ typedef unsigned Uns;
 typedef unsigned long Uns;
 #endif
 
+#if 0
 #if defined(_80_)
 typedef int Bool;		/* boolean */
 #elif defined(_W32_)
 typedef long Bool;		/* boolean to match Windows boolean def */
 #else
 typedef MdUns Bool;		/* boolean */
+#endif
 #endif
 
 typedef SmBits Byte;		/* smallest unit of addressable store */
@@ -238,9 +240,11 @@ typedef double Float;
 #define NULL 0
 #endif
 
+#if 0
 #ifndef TRUE
 #define FALSE ((Bool)0)
 #define TRUE  ((Bool)1)
+#endif
 #endif
 
 /*

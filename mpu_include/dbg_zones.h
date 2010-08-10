@@ -46,7 +46,7 @@
 #ifndef _DBG_ZONES_H_
 #define _DBG_ZONES_H_
 
-#ifndef LINUX			/* No DEBUGZONE in Linux */
+#ifndef __linux__			/* No DEBUGZONE in Linux */
 
 #include <dbdefs.h>
 
@@ -82,7 +82,7 @@
     TEXT("CLASS3"),             /* 3  */    \
     TEXT("CLASS4"),             /* 4  */    \
     TEXT("CLASS5"),             /* 5  */    \
-    TEXT("OSAL ERRORS"),		/* 6  */    \
+    TEXT("SERVICES ERRORS"),	/* 6  */    \
     TEXT("CRITICAL ERRORS"),    /* 7  */    \
     TEXT("Unknown"),            /* 8  */    \
     TEXT("Unknown"),            /* 9  */    \
@@ -95,11 +95,11 @@
     },                                      \
     (initialZones)                          \
 };
-extern DSP_STATUS DBG_SetGT_DBG();
+extern int DBG_SetGT_DBG();
 extern DBGPARAM dpCurSettings;
 
 #define DBG_SetGT() DBG_SetGT_DBG()
 
-#endif				/* ifndef LINUX */
+#endif				/* ifndef __linux__ */
 
 #endif				/*ifndef _DBG_ZONES_H_ */

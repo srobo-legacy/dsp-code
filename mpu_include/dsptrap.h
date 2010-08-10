@@ -36,7 +36,7 @@
 
 #include <wcdioctl.h>
 
-#ifndef LINUX
+#ifndef __linux__
 #define TI_FUNCTION_OFFSET  0x5000
 
 #define NT_CMD_FROM_OFFSET(x) CTL_CODE(FILE_DEVICE_UNKNOWN, \
@@ -44,6 +44,6 @@
 #endif
 
 /* Function Prototypes */
-extern DWORD DSPTRAP_Trap(Trapped_Args * args, int cmd);
+extern int DSPTRAP_Trap(Trapped_Args * args, int cmd);
 
 #endif				/* DSPTRAP_ */

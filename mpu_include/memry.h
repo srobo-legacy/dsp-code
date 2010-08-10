@@ -61,7 +61,7 @@ extern "C" {
 #define MEMRY_GETVIRTUALSEGID   MEM_GETVIRTUALSEGID
 #define MEMRY_MASKVIRTUALSEGID  MEM_MASKVIRTUALSEGID
 
-#ifndef LINUX
+#ifndef __linux__
 
 /*
  *  ======== MEMRY_Alloc ========
@@ -96,7 +96,7 @@ extern "C" {
  *     pPA != NULL.
  *  Ensures:
  */
-	extern BOOL MEMRY_BindMem(PVOID pVA, PVOID pPA, ULONG ulBytes);
+	extern bool MEMRY_BindMem(PVOID pVA, PVOID pPA, ULONG ulBytes);
 
 /*
  *  ======== MEMRY_Calloc ========
@@ -142,7 +142,7 @@ extern "C" {
  *  Ensures:
  *
  */
-	extern BOOL MEMRY_FreeVM(PVOID pVirtualAddr);
+	extern bool MEMRY_FreeVM(PVOID pVirtualAddr);
 
 /*
  *  ======== MEMRY_PageLock ========
@@ -166,7 +166,7 @@ extern "C" {
 	extern DSPAPIDLL PVOID WINAPI MEMRY_PageLock(PVOID pBuffer,
 						     ULONG cSize);
 
-#endif				/* ifndef LINUX */
+#endif				/* ifndef __linux__ */
 
 /*
  *  ======== MEMRY_LinearAddress ========
@@ -187,7 +187,7 @@ extern "C" {
 	extern inline PVOID MEMRY_LinearAddress(PVOID pPhyAddr, ULONG cBytes) {
 		return pPhyAddr;
 	}
-#ifndef LINUX
+#ifndef __linux__
 /*
  *  ======== MEMRY_PageUnlock ========
  *  Purpose:
@@ -196,7 +196,7 @@ extern "C" {
  *      pBuffer:    Pointer to locked memory (as returned by MEMRY_PageLock()).
  *      cSize:      Size in bytes of the buffer.
  *  Returns:
- *      Returns DSP_SOK if unlock successful; else, returns DSP_EFAIL;
+ *      Returns 0 if unlock successful; else, returns -EPERM;
  *  Requires:
  *      pBuffer must be a pointer to a locked, shared data buffer previously
  *      locked with MEMRY_PageLock().
@@ -219,7 +219,7 @@ extern "C" {
  */
 	extern PVOID MEMRY_ReserveVM(ULONG cBytes);
 
-#endif				/* ifndef LINUX */
+#endif				/* ifndef __linux__ */
 
 /*
  *  ======== MEMRY_UnMapLinearAddress ========

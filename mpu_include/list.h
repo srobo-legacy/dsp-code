@@ -191,7 +191,7 @@ extern "C" {
  *  Ensures:
  *      LST initialized.
  */
-	extern BOOL LST_Init();
+	extern bool LST_Init();
 
 /*
  *  ======== LST_InitElem ========
