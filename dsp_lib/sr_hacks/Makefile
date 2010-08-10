@@ -1,4 +1,4 @@
-CC = clang -ccc-host-triple tms320c64x-unknown-unknown
+CC = tic64x-clang -ccc-host-triple tms320c64x-unknown-unknown
 AS = tic64x-as
 LD = tic64x-ld
 AR = tic64x-ar

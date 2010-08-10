@@ -1,5 +1,5 @@
 CC=	arm-angstrom-linux-gnueabi-gcc
-DSP_CC=	clang -ccc-host-triple tms320c64x-unknown-unknown
+DSP_CC=	tic64x-clang -ccc-host-triple tms320c64x-unknown-unknown
 
 bees:
 	echo "Build either dsp-stream.doff or mpu-stream"

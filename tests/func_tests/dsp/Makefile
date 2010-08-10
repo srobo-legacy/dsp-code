@@ -1,4 +1,4 @@
-CC = clang -ccc-host-triple tms320c64x-unknown-unknown
+CC = tic64x-clang -ccc-host-triple tms320c64x-unknown-unknown
 CFLAGS = -I../../../dsp_include
 LDFLAGS = --oformat=doff-c64x -r
 
