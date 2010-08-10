@@ -2,7 +2,6 @@
 #define SR_NODE_CREATE_FUNC "create"
 #define SR_NODE_EXECUTE_FUNC "execute"
 #define SR_NODE_DELETE_FUNC "delete"
-#define SR_NODE_NAME "bees"
 
 #include <sr_dcd.h>
 

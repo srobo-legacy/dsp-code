@@ -3,10 +3,7 @@
  * 	 "00000000_0000_0000_0000_000000000000"
  * SR_NODE_CREATE_FUNC: Function name to be called for node creation
  * SR_NODE_EXECUTE_FUNC: Function name to be called for node execution
- * SR_NODE_DELETE_FUNC: Function name to be called for note deletion
- * SR_NODE_NAME: Name of node, can be anything you like. However if you include
- *			any spaces, dspbridge will hang up when it tries to
- *			parse it */
+ * SR_NODE_DELETE_FUNC: Function name to be called for note deletion */
 
 #ifndef _TESTS_DSP_SR_DCD_H_
 #define _TESTS_DSP_SR_DCD_H_
