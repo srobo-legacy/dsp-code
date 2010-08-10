@@ -106,7 +106,7 @@ int
 terminate(DSP_HNODE node)
 {
 	DBAPI status;
-	DSP_STATUS retval;
+	int retval;
 
 	status = DSPNode_Delete(node);
 	if (DSP_FAILED(status))
