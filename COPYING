@@ -1,0 +1,7 @@
+The headers and binaries in the "mpu_lib/" and "mpu_include/" directories of
+this repository are copyright TI, and subject to the LGPL2.1 license.
+
+You can find the text of the LGPL at: http://www.gnu.org/licenses/lgpl-2.1.html
+
+All other files, unless otherwise stated, are copyright Jeremy Morse, and are
+licensed under the BSD 2-clause license.
