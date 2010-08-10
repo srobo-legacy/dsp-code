@@ -6,8 +6,11 @@
 
 #include <dbapi.h>
 
-DSP_HNODE open_dsp_and_node();
-void wind_up_dsp();
+DSP_HNODE open_dsp_and_node(struct DSP_UUID *uuid, char *filename);
+void wind_up_dsp(struct DSP_UUID *uuid);
+
+struct DSP_UUID ping_uuid = {0x3CBF0A73, 0x5D16, 0x4B0C, 0x9E, 0xF9,
+				{0x3C, 0xBA, 0xC5, 0x83, 0x88, 0x6E}};
 
 int
 main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
@@ -18,7 +21,7 @@ main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 	int i, num;
 
 	num = 50;
-	node = open_dsp_and_node();
+	node = open_dsp_and_node(&ping_uuid, "ping.doff");
 	if (node == NULL) {
 		fprintf(stderr, "Couldn't open dsp or create node\n");
 		return 1;
@@ -60,7 +63,7 @@ main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 		}
 	}
 
-	wind_up_dsp();
+	wind_up_dsp(&ping_uuid);
 	return 0;
 }
 

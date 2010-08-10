@@ -10,9 +10,6 @@ static bool dsp_open = false;
 static DSP_HPROCESSOR dsp_handle = NULL;
 static DSP_HNODE node;
 
-static struct DSP_UUID uuid = {0x3CBF0A73, 0x5D16, 0x4B0C, 0x9E, 0xF9,
-				{0x3C, 0xBA, 0xC5, 0x83, 0x88, 0x6E}};
-
 int
 check_dsp_open()
 {
@@ -49,22 +46,21 @@ close_dsp()
 }
 
 int
-register_and_alloc_node()
+register_and_alloc_node(struct DSP_UUID *uuid, char *filename)
 {
 	DBAPI status;
 
-	DSPManager_UnregisterObject(&uuid, DSP_DCDNODETYPE);
-	DSPManager_UnregisterObject(&uuid, DSP_DCDLIBRARYTYPE);
+	DSPManager_UnregisterObject(uuid, DSP_DCDNODETYPE);
+	DSPManager_UnregisterObject(uuid, DSP_DCDLIBRARYTYPE);
 
-	status = DSPManager_RegisterObject(&uuid, DSP_DCDNODETYPE, "ping.doff");
+	status = DSPManager_RegisterObject(uuid, DSP_DCDNODETYPE, filename);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't register dsp code with bridgedriver, "
 				"%X\n", (int)status);
 		return 1;
 	}
 
-	status = DSPManager_RegisterObject(&uuid,DSP_DCDLIBRARYTYPE,
-							"ping.doff");
+	status = DSPManager_RegisterObject(uuid, DSP_DCDLIBRARYTYPE, filename);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Couldn't register dsp code with bridgedriver, "
 				"%X\n", (int)status);
@@ -72,7 +68,7 @@ register_and_alloc_node()
 	}
 
 	/* Right - it's registered. Now lets try and run it. */
-	status = DSPNode_Allocate(dsp_handle, &uuid, NULL, NULL, &node);
+	status = DSPNode_Allocate(dsp_handle, uuid, NULL, NULL, &node);
 	if (DSP_FAILED(status)) {
 		fprintf(stderr, "Failed to allocate dsp node (%X) from "
 				"bridgedriver\n", (int)status);
@@ -100,15 +96,15 @@ terminate(DSP_HNODE node)
 }
 
 void
-dereg_node()
+dereg_node(struct DSP_UUID *uuid)
 {
 
-	DSPManager_UnregisterObject(&uuid, DSP_DCDNODETYPE);
-	DSPManager_UnregisterObject(&uuid, DSP_DCDLIBRARYTYPE);
+	DSPManager_UnregisterObject(uuid, DSP_DCDNODETYPE);
+	DSPManager_UnregisterObject(uuid, DSP_DCDLIBRARYTYPE);
 }
 
 DSP_HNODE
-open_dsp_and_node()
+open_dsp_and_node(struct DSP_UUID *uuid, char *filename)
 {
 	DBAPI status;
 
@@ -118,7 +114,7 @@ open_dsp_and_node()
 	}
 
 	/* Register and allocate the dsp node, but don't create */
-	if (register_and_alloc_node()) {
+	if (register_and_alloc_node(uuid, filename)) {
 		fprintf(stderr, "Couldn't allocate dsp node\n");
 		return NULL;
 	}
@@ -145,12 +141,12 @@ open_dsp_and_node()
 }
 
 void
-wind_up_dsp()
+wind_up_dsp(struct DSP_UUID *uuid)
 {
 
 	/* We assume there's nothing in flight while we're shutting down */
 	terminate(node);
-	dereg_node(&uuid);
+	dereg_node(uuid);
 	close_dsp();
 	return;
 }
