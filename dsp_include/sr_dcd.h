@@ -29,7 +29,7 @@ static const char __attribute__((section(".dcd_register"))) sr_dcd_register[] =
 static const char __attribute__((section("." SR_NODE_GUID_STRING))) sr_death[] =
         "1024," SR_NODE_GUID_STRING ",nodename,"
 	"1,0," SR_STATIC_DATA_SZ "," SR_GLOBAL_DATA_SZ "," SR_PROG_MEM_SZ
-	",3072,5,3,1000,100,10,1,1024,16,0,2,"
+	",3072,5,3,1000,100,10,1,4096,128,0,2,"
 	SR_NODE_INPUT_STREAMS ","
 	SR_NODE_OUTPUT_STREAMS ","
 	"7d0H," /* timeout */
